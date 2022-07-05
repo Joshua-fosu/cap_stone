@@ -6,6 +6,7 @@ import {
   getDocs,
   where,
   getDoc,
+  doc,
 } from "firebase/firestore";
 import { database } from "../firebase/firebase";
 
@@ -16,26 +17,19 @@ export function useUserData() {
 }
 
 export function UserDataProvider({ children }) {
-  const [currentUserEmail, setCurrentUserEmail] = useState("");
-  const [userDetails, setUserDetails] = useState();
-
-  const collectionRef = collection(database, "users");
+  const [userDetails, setUserDetails] = useState({});
 
   async function getUserDetails(currentUserEmail) {
-    console.log("Retrieving data");
-    let userDetails = await query(
-      collectionRef,
-      where("userEmail", "==", currentUserEmail)
-    );
-    const querySnapshot = await getDocs(userDetails);
-    querySnapshot.forEach((doc) => {
-      setUserDetails(doc.data());
-    });
+    const docRef = doc(database, "users", currentUserEmail);
+    const docSnap = await getDoc(docRef);
+    console.log("login data", docSnap.data());
+    setUserDetails(docSnap.data());
   }
 
   const value = {
     getUserDetails,
     userDetails,
+    setUserDetails,
   };
 
   return (

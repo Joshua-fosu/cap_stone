@@ -10,11 +10,11 @@ import { UserDataProvider } from "./contexts/UserDataContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <UserDataProvider>
+    <UserDataProvider>
+      <AuthProvider>
         <App />
-      </UserDataProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </UserDataProvider>
   </React.StrictMode>
 );
 

@@ -12,49 +12,47 @@ import { useAuth } from "./contexts/AuthContext";
 
 function App() {
   const { isLoggedIn } = useAuth();
+  console.log("is Logged in", isLoggedIn);
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route exact path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route
-            exact
             path={ROUTES.PROFILE}
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute>
                 <UserProfile />
               </ProtectedRoute>
             }
           />
+
           <Route
-            exact
             path={ROUTES.EXPLORE_FRIENDS}
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute>
                 <ExploreFriendsPage />
               </ProtectedRoute>
             }
           />
 
           <Route
-            exact
             path={ROUTES.CREATE_POST}
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute>
                 <CreatePostPage />
               </ProtectedRoute>
             }
           />
           <Route
-            exact
             path={ROUTES.EVENTS}
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute>
                 <ExploreEventsPage />
               </ProtectedRoute>
             }
           />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

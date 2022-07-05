@@ -9,7 +9,7 @@ export default function LoginForm({ setError }) {
   const [userPassword, setUserPassword] = useState("");
   const userEmailRef = useRef("");
   const userPasswordRef = useRef("");
-  const { login, currentUser } = useAuth();
+  const { login, currentUser, isLoggedIn } = useAuth();
   const { getUserDetails, userDetails } = useUserData();
 
   const Navigate = useNavigate();
@@ -26,9 +26,11 @@ export default function LoginForm({ setError }) {
     event.preventDefault();
     try {
       login(userEmail, userPassword);
-      getUserDetails(currentUser.email);
 
-      Navigate("/user/oidfd");
+      if (isLoggedIn) {
+        // getUserDetails(userEmail);
+        Navigate(`/user/${userDetails?.userName}`);
+      }
     } catch (err) {
       console.log(err);
     }

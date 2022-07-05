@@ -2,34 +2,38 @@ import React, { useState, useRef, useId } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../contexts/UserDataContext";
-import { collection, addDoc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { database } from "../../firebase/firebase";
 
 export default function SignUpForm() {
   const multiAvatarAPI = "s6n39c8ltBQdAV";
   const [userEmail, setUserEmail] = useState("");
-  const [userFullName, setUserFullName] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [confirmUserPassword, setUserConfirmPassword] = useState("");
 
   const userEmailRef = useRef("");
-  const userFullNameRef = useRef("");
+
   const userNameRef = useRef("");
   const userPasswordRef = useRef("");
   const confirmUserPasswordRef = useRef("");
 
   const { signup, currentUser } = useAuth();
+  const { setUserDetails } = useUserData();
+
   const user_id = useId();
 
   const Navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setUserName(userName.replace(/ +/g, ""));
 
     try {
       signup(userEmailRef.current.value, userPasswordRef.current.value);
-      addDoc(collection(database, "users"), {
+      Navigate(`/user/${userName}`);
+
+      const newUser = {
         userName: userName,
         userEmail: userEmail,
         numOfPosts: 0,
@@ -46,8 +50,10 @@ export default function SignUpForm() {
           month: "short",
           day: "numeric",
         }),
-      });
-      Navigate("/user/osdcdjodicj");
+      };
+
+      await setDoc(doc(database, "users", userEmail), newUser);
+      setUserDetails(newUser);
     } catch (err) {
       console.log(err);
     }
@@ -71,20 +77,7 @@ export default function SignUpForm() {
             value={userEmail}
           />
         </div>
-        <div className="form-field d-flex align-items-center">
-          <span className="far fa-user"></span>
-          <input
-            ref={userFullNameRef}
-            type="text"
-            name="Full_name"
-            id="full_name"
-            placeholder="Full name"
-            onChange={(event) => {
-              setUserFullName(event.target.value);
-            }}
-            value={userFullName}
-          />
-        </div>
+
         <div className="form-field d-flex align-items-center">
           <span className="far fa-user"></span>
           <input
