@@ -26,11 +26,6 @@ export default function LoginForm({ setError }) {
     event.preventDefault();
     try {
       login(userEmail, userPassword);
-
-      if (isLoggedIn) {
-        // getUserDetails(userEmail);
-        Navigate(`/user/${userDetails?.userName}`);
-      }
     } catch (err) {
       console.log(err);
     }

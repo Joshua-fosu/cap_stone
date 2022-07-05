@@ -9,9 +9,11 @@ import {
   signInWithRedirect,
   inMemoryPersistence,
   signInWithEmailAndPassword,
+  browserLocalPersistence,
 } from "firebase/auth";
 import firebase from "firebase/app";
 import { useUserData } from "./UserDataContext";
+import { useNavigate } from "react-router-dom";
 const FacebookProvider = new FacebookAuthProvider();
 
 const AuthContext = React.createContext();
@@ -22,8 +24,10 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState("");
+  const Navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const getSessionAuth = getAuth();
+  setPersistence(getSessionAuth, browserLocalPersistence);
   const { getUserDetails, userDetails } = useUserData();
 
   function signup(email, password) {
@@ -37,6 +41,7 @@ export function AuthProvider({ children }) {
         setIsLoggedIn(true);
         const user = userCredential.user;
         setCurrentUser(user);
+        Navigate(`/user/jfkdl`);
         return true;
         // ...
       })
@@ -63,13 +68,13 @@ export function AuthProvider({ children }) {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       console.log("user", user);
-      getUserDetails(user._delegate.email);
-
+      const res = getUserDetails(user._delegate.email);
+      Navigate(`/user/${user._delegate.email}`);
       setIsLoggedIn(true);
     });
 
     return unsubscribe;
-  });
+  }, []);
 
   const value = {
     currentUser,

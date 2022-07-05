@@ -20,10 +20,16 @@ export function UserDataProvider({ children }) {
   const [userDetails, setUserDetails] = useState({});
 
   async function getUserDetails(currentUserEmail) {
-    const docRef = doc(database, "users", currentUserEmail);
-    const docSnap = await getDoc(docRef);
-    console.log("login data", docSnap.data());
-    setUserDetails(docSnap.data());
+    try {
+      console.log("curr email", currentUserEmail);
+      const docRef = doc(database, "users", currentUserEmail);
+      const docSnap = await getDoc(docRef);
+      console.log("login data", docSnap.data());
+      setUserDetails(docSnap.data());
+      return docSnap.data().userEmail;
+    } catch (err) {
+      console.log("Unable to read", err);
+    }
   }
 
   const value = {

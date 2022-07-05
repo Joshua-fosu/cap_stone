@@ -16,7 +16,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <div>
         <Routes>
           <Route
             path={ROUTES.PROFILE}
@@ -55,7 +55,7 @@ function App() {
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
+      </div>
     </>
   );
 }
