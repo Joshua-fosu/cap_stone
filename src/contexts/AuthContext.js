@@ -10,8 +10,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(!!currentUser);
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -34,6 +34,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log("Came here");
       setIsLoggedIn(true);
       setCurrentUser(user);
     });
