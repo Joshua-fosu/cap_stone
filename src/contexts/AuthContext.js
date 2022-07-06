@@ -57,7 +57,6 @@ export function AuthProvider({ children }) {
       .signInWithPopup(provider)
       .then((res) => {
         setIsLoggedIn(true);
-
         setCurrentUser(res.user);
         return res.user._delegate;
       })
@@ -68,8 +67,9 @@ export function AuthProvider({ children }) {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       console.log("user", user);
-      const res = getUserDetails(user._delegate.email);
+
       Navigate(`/user/${user._delegate.email}`);
+      // getUserDetails(user._delegate.email);
       setIsLoggedIn(true);
     });
 

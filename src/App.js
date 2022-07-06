@@ -8,6 +8,7 @@ import ExploreEventsPage from "./pages/ExploreEventsPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import ExploreFriendsPage from "./pages/ExploreFriendsPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import BaseAuthenticatedPage from "./pages/BaseAuthenticatedPage";
 import { useAuth } from "./contexts/AuthContext";
 
 function App() {
@@ -19,36 +20,10 @@ function App() {
       <div>
         <Routes>
           <Route
-            path={ROUTES.PROFILE}
+            path={ROUTES.BASE_AUTHENTICATED}
             element={
               <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path={ROUTES.EXPLORE_FRIENDS}
-            element={
-              <ProtectedRoute>
-                <ExploreFriendsPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path={ROUTES.CREATE_POST}
-            element={
-              <ProtectedRoute>
-                <CreatePostPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.EVENTS}
-            element={
-              <ProtectedRoute>
-                <ExploreEventsPage />
+                <BaseAuthenticatedPage />
               </ProtectedRoute>
             }
           />
