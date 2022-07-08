@@ -28,7 +28,7 @@ export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const getSessionAuth = getAuth();
   setPersistence(getSessionAuth, browserLocalPersistence);
-  const { getUserDetails, userDetails } = useUserData();
+  const { getUserDetails, userDetails, getSuggestedProfiles } = useUserData();
 
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password);
@@ -66,10 +66,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      console.log("user", user);
-
+      getUserDetails(user._delegate.email);
+      getSuggestedProfiles(user._delegate.email);
       Navigate(`/user/${user._delegate.email}`);
-      // getUserDetails(user._delegate.email);
+
       setIsLoggedIn(true);
     });
 
