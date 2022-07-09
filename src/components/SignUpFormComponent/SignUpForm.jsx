@@ -43,7 +43,7 @@ export default function SignUpForm() {
         About: "",
         userAvatar_pic: `https://api.multiavatar.com/${userName}.svg?apikey=${multiAvatarAPI}`,
         userID: user_id,
-        savedEvents: 0,
+        savedEvents: [],
         createdAt: new Date().toLocaleDateString("en-us", {
           weekday: "long",
           year: "numeric",

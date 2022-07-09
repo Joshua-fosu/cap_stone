@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { database } from "../../firebase/firebase";
+import { useUserData } from "../../contexts/UserDataContext";
 
 export default function EventPageModalComponent(props) {
   const [eventDetails, setEventDetails] = useState([]);
+  const { userDetails } = useUserData();
 
   const noDescription = "There are no descriptions yet for this event!";
 
@@ -16,7 +20,13 @@ export default function EventPageModalComponent(props) {
     fetchEventDetails();
   }, [props.eventID]);
 
-  console.log("event details", eventDetails);
+  const addToSavedEvents = async (event) => {
+    const userDocRef = doc(database, "users", userDetails?.userEmail);
+    console.log("user doc ref", userDocRef);
+    await updateDoc(userDocRef, {
+      savedEvents: eventDetails,
+    });
+  };
 
   return (
     <>
@@ -46,9 +56,6 @@ export default function EventPageModalComponent(props) {
         <Modal.Footer>
           <Button onClick={props.onHide} style={{ backgroundColor: "red" }}>
             Close
-          </Button>
-          <Button onClick={props.onHide} style={{ backgroundColor: "blue" }}>
-            Save
           </Button>
         </Modal.Footer>
       </Modal>

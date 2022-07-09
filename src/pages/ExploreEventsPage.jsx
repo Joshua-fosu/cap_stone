@@ -1,39 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  ListGroup,
+  ListGroupItem,
+} from "react-bootstrap";
 import axios from "axios";
 import "./ExploreEvents.css";
 import EventPageModalComponent from "../components/EventPageComponent/EventPageModalComponent";
 import EventSearchbar from "../components/EventPageComponent/EventSearchbar";
+import EventPageSideDetails from "../components/EventPageComponent/EventPageSideDetails";
+import { useUserData } from "../contexts/UserDataContext";
 
 export default function ExploreEventsPage() {
-  const [events, setEvents] = useState([]);
+  // const [events, setEvents] = useState([]);
   const [eventID, setEventID] = useState("");
   const [modalShow, setModalShow] = React.useState(false);
   const [filterEvent, setFilterEvent] = useState("");
+  const { events } = useUserData();
 
   const noDescription = "There are no descriptions yet for this event!";
 
-  const config = {
-    headers: {
-      Accept: "application/json",
-      Authorization: "Bearer FaxaHps5PGFaZI7qmJF-qb62W-xehMjApnKARcuj",
-    },
-  };
-  const URL = "https://api.predicthq.com/v1/events/?limit=200&offset=200";
-
-  useEffect(() => {
-    async function fetchEvents() {
-      // You can await here
-      const response = await axios
-        .get(URL, config)
-        .then((res) => {
-          setEvents(res.data.results);
-        })
-        .catch((err) => console.log(err));
-      // ...
-    }
-    fetchEvents();
-  }, []); // Or [] if effect doesn't need props or state
   let eventsFiltered = events;
   if (filterEvent !== "") {
     eventsFiltered = events.filter((event) => {
@@ -46,8 +35,8 @@ export default function ExploreEventsPage() {
   return (
     <>
       <Row>
-        <Col sm={12} style={{ alignContent: "space-between", alignItems: "" }}>
-          <EventSearchbar setFilterEvent={setFilterEvent} />
+        <EventSearchbar setFilterEvent={setFilterEvent} />
+        <Col sm={9} style={{ alignContent: "space-between", alignItems: "" }}>
           <Row style={{ alignContent: "space-between", marginTop: "1rem" }}>
             {eventsFiltered.map((event, idx) => (
               <>
@@ -88,12 +77,9 @@ export default function ExploreEventsPage() {
             ))}
           </Row>
         </Col>
-        <EventPageModalComponent
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-          events={events}
-          eventID={eventID}
-        />
+        <Col sm={3}>
+          <EventPageSideDetails eventID={eventID} />
+        </Col>
       </Row>
     </>
   );
