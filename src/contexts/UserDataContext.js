@@ -41,6 +41,7 @@ export function UserDataProvider({ children }) {
     const newImgObj = {
       imageURL: url,
       userName: userDetails.userName,
+      userEmail: userDetails.userEmail,
       comments: [],
       likes: 0,
       createdAt: new Date().toLocaleDateString("en-us", {
