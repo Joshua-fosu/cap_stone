@@ -11,6 +11,7 @@ import {
   limit,
 } from "firebase/firestore";
 import { database } from "../firebase/firebase";
+import axios from "axios";
 
 const UserDataContext = React.createContext();
 
@@ -20,6 +21,7 @@ export function useUserData() {
 
 export function UserDataProvider({ children }) {
   const [userDetails, setUserDetails] = useState({});
+  const [events, setEvents] = useState([]);
   const [userSuggestedProfiles, setUserSuggestedProfiles] = useState([]);
   const [userEmail, setUserEmail] = useState("");
 
@@ -29,7 +31,7 @@ export function UserDataProvider({ children }) {
       const docRef = doc(database, "users", currentUserEmail);
       const docSnap = await getDoc(docRef);
       setUserDetails(docSnap.data());
-      getSuggestedProfiles();
+      getSuggestedProfiles(userEmail);
       return docSnap.data().userEmail;
     } catch (err) {
       console.log("Unable to read", err);
@@ -71,6 +73,28 @@ export function UserDataProvider({ children }) {
     return userSuggestedProfiles;
   }
 
+  const config = {
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer FaxaHps5PGFaZI7qmJF-qb62W-xehMjApnKARcuj",
+    },
+  };
+  const URL = "https://api.predicthq.com/v1/events/?limit=200&offset=200";
+
+  useEffect(() => {
+    async function fetchEvents() {
+      // You can await here
+      const response = await axios
+        .get(URL, config)
+        .then((res) => {
+          setEvents(res.data.results);
+        })
+        .catch((err) => console.log(err));
+      // ...
+    }
+    fetchEvents();
+  }, []);
+
   const value = {
     getUserDetails,
     userDetails,
@@ -78,6 +102,7 @@ export function UserDataProvider({ children }) {
     uploadImageObject,
     getSuggestedProfiles,
     userSuggestedProfiles,
+    events,
   };
 
   return (
