@@ -23,6 +23,7 @@ export function UserDataProvider({ children }) {
   const [userDetails, setUserDetails] = useState({});
   const [events, setEvents] = useState([]);
   const [userSuggestedProfiles, setUserSuggestedProfiles] = useState([]);
+  const [includeInFeed, setIncludeInFeed] = useState([]);
   const [userEmail, setUserEmail] = useState("");
 
   async function getUserDetails(currentUserEmail) {
@@ -41,6 +42,7 @@ export function UserDataProvider({ children }) {
   async function uploadImageObject(url) {
     console.log("url", url);
     const newImgObj = {
+      userDetails: userDetails,
       imageURL: url,
       userName: userDetails.userName,
       userEmail: userDetails.userEmail,

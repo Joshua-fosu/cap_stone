@@ -1,22 +1,21 @@
 import React from "react";
-import { Overlay, Popover, Button, OverlayTrigger } from "react-bootstrap";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 
-export default function UserSinglePostComponent({ userPost }) {
-  console.log("came here", userPost);
+export default function FriendPostComponent({ eachFriendPost }) {
   return (
     <>
-      <div className="col-md-12 grid-margin">
+      <div className="col-lg-7 col-xl-6">
         <div className="card rounded">
           <div className="card-header">
             <div className="d-flex align-items-center justify-content-between">
               <div className="d-flex align-items-center">
                 <img
                   className="img-xs rounded-circle"
-                  src={userPost?.userDetails?.userAvatar_pic}
+                  src={eachFriendPost?.userDetails?.userAvatar_pic}
                   alt=""
                 />
                 <div className="ml-2">
-                  <p>@{userPost.userName}</p>
+                  <p>@{eachFriendPost?.userName}</p>
                   <p className="tx-11 text-muted">1 min ago</p>
                 </div>
               </div>
@@ -66,7 +65,7 @@ export default function UserSinglePostComponent({ userPost }) {
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Accusamus minima delectus nemo unde quae recusandae assumenda.
             </p>
-            <img className="img-fluid" src={userPost.imageURL} alt="" />
+            <img className="img-fluid" src={eachFriendPost?.imageURL} alt="" />
           </div>
           <div className="card-footer">
             <div className="d-flex post-actions">

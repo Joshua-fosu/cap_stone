@@ -33,8 +33,8 @@ export default function FollowedFriendsComponent() {
         <div class="col-md-12">
           <h1>Followed Friends</h1>
           <div class="people-nearby">
-            {userFriends.length !== 0 ? (
-              userFriends.map((userFriend) => (
+            {userFriends?.length !== 0 ? (
+              userFriends?.map((userFriend) => (
                 <EachFollowedFriendComponent
                   eachUserFollowedFriend={userFriend}
                 />
