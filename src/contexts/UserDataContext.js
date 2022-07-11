@@ -31,7 +31,7 @@ export function UserDataProvider({ children }) {
       const docRef = doc(database, "users", currentUserEmail);
       const docSnap = await getDoc(docRef);
       setUserDetails(docSnap.data());
-      getSuggestedProfiles(userEmail);
+      getSuggestedProfiles(currentUserEmail);
       return docSnap.data().userEmail;
     } catch (err) {
       console.log("Unable to read", err);
@@ -103,6 +103,7 @@ export function UserDataProvider({ children }) {
     getSuggestedProfiles,
     userSuggestedProfiles,
     events,
+    setUserSuggestedProfiles,
   };
 
   return (

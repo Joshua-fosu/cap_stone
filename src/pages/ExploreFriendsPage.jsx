@@ -1,5 +1,10 @@
 import React from "react";
+import FriendsListComponent from "../components/FriendPageSubComponents/FriendsListComponent";
 
 export default function ExploreFriendsPage() {
-  return <>View friends</>;
+  return (
+    <>
+      <FriendsListComponent />
+    </>
+  );
 }
