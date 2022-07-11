@@ -15,15 +15,16 @@ export default function EachAllFriendComponent({ eachFriend, userFriends }) {
 
   useEffect(() => {
     setAddedFriendID(eachFriend.userName);
-    if (userFriends.includes(eachFriend.userName)) {
+    if (userFriends?.includes(eachFriend.userName)) {
       setHasAddedFriend(true);
     }
-  }, [userFriends, userDetails]);
+  }, [userFriends, userDetails, eachFriend]);
 
   const handleAddDeleteFriend = async (event) => {
     const addFriendRef = doc(database, "users", userDetails.userEmail);
+    // setAddedFriendID(event.target.id);
     if (!hasAddedFriend) {
-      setAddedFriendID(event.target.id);
+      // setAddedFriendID(event.target.id);
       console.log("printed");
 
       await updateDoc(addFriendRef, {

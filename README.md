@@ -1,8 +1,10 @@
 #Demo
-<a href="https://www.loom.com/share/46fd4976d5bc4609ba17c64204a764bc">
-<p>React App - 8 July 2022 - Watch Video</p>
-<img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/46fd4976d5bc4609ba17c64204a764bc-with-play.gif">
-</a>
+React App - 11 July 2022 - Watch Video
+
+<a href="https://www.loom.com/share/c563ebd18cf847bca22eac6b93494e55">
+    <p>React App - 11 July 2022 - Watch Video</p>
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/c563ebd18cf847bca22eac6b93494e55-with-play.gif">
+  </a>
 
 Left to be worked on for later
 
@@ -17,3 +19,6 @@ Left to be worked on for later
 9. Removing file after uploading
 10. Displaying progress bar when uploading new post.
 11. Implementing lazy loading.
+
+Currently working on:
+Liking, Commenting on Posts.
