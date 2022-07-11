@@ -15,15 +15,15 @@ export default function UserSavedEventsComponent() {
       const docSnap = await getDoc(docRef);
       setToastSavedEvents(
         events?.filter((event) => {
-          console.log("State");
           return docSnap?.data()?.savedEvents.find((savedEvent) => {
+            console.log(savedEvent === event.id);
             return savedEvent === event.id;
           });
         })
       );
     }
     fetchSavedEvents();
-  }, [events, userDetails]);
+  }, [userDetails]);
 
   return (
     <>
