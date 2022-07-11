@@ -4,7 +4,6 @@ import UserAboutComponent from "../components/UserProfileComponents/UserAboutCom
 import UserSavedEventsComponent from "../components/UserProfileComponents/UserSavedEventsComponent";
 import UserFeedComponent from "../components/UserProfileComponents/UserFeedComponent";
 import UserProfileRightWrapper from "../components/UserProfileComponents/UserProfileRightWrapper";
-
 export default function UserProfile() {
   const { userDetails } = useUserData();
   console.log("user details", userDetails);

@@ -27,6 +27,7 @@ export function UserDataProvider({ children }) {
   const [userEmail, setUserEmail] = useState("");
 
   async function getUserDetails(currentUserEmail) {
+    console.log("Hello");
     try {
       setUserEmail(currentUserEmail);
       const docRef = doc(database, "users", currentUserEmail);
