@@ -42,6 +42,10 @@ export function UserDataProvider({ children }) {
 
   async function uploadImageObject(url) {
     console.log("url", url);
+    const res = await axios.get(
+      "https://random.justyy.workers.dev/api/random/?cached&n=15"
+    );
+    console.log("hash", res);
     const newImgObj = {
       userDetails: userDetails,
       imageURL: url,
@@ -49,13 +53,16 @@ export function UserDataProvider({ children }) {
       userEmail: userDetails.userEmail,
       comments: [],
       likes: 0,
+      likesUsers: [],
       createdAt: new Date().toLocaleDateString("en-us", {
         weekday: "long",
         month: "short",
         day: "numeric",
       }),
+      id: res?.data,
     };
-    await addDoc(collection(database, "posts"), newImgObj);
+    // await addDoc(collection(database, "posts"), newImgObj);
+    await setDoc(doc(database, "posts", res.data), newImgObj);
   }
 
   async function getSuggestedProfiles(userEmail) {
