@@ -19,6 +19,7 @@ Left to be worked on for later
 9. Removing file after uploading
 10. Displaying progress bar when uploading new post.
 11. Implementing lazy loading.
+12. kds jfld
 
 Currently working on:
 Liking, Commenting on Posts.
