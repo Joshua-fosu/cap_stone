@@ -1,8 +1,15 @@
 import React from "react";
 import { useUserData } from "../../contexts/UserDataContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function UserAboutComponent() {
   const { userDetails } = useUserData();
+  const { userSignOut, setIsLoggedIn } = useAuth();
+
+  const handleOnSignOut = () => {
+    setIsLoggedIn(false);
+    userSignOut();
+  };
 
   return (
     <>
@@ -133,6 +140,9 @@ export default function UserAboutComponent() {
               </label>
               <p className="text-muted">www.nobleui.com</p>
             </div>
+            <button className="btn btn-theme btn-sm" onClick={handleOnSignOut}>
+              Sign Out
+            </button>
             <div className="mt-3 d-flex social-links">
               <a
                 href="#"

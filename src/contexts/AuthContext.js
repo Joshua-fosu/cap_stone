@@ -10,6 +10,7 @@ import {
   inMemoryPersistence,
   signInWithEmailAndPassword,
   browserLocalPersistence,
+  signOut,
 } from "firebase/auth";
 import firebase from "firebase/app";
 import { useUserData } from "./UserDataContext";
@@ -63,6 +64,17 @@ export function AuthProvider({ children }) {
       .catch((err) => {});
   };
 
+  const userSignOut = () => {
+    const getR = getAuth();
+    signOut(getR)
+      .then(() => {
+        console.log("user signed out successfully!!");
+      })
+      .catch((error) => {
+        console.log("user was not able to sign out", error);
+      });
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
@@ -83,6 +95,8 @@ export function AuthProvider({ children }) {
     isLoggedIn,
     socialMediaAuth,
     FacebookProvider,
+    userSignOut,
+    setIsLoggedIn,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
