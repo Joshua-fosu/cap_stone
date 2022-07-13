@@ -74,7 +74,7 @@ body {
   color: #5369f8;
 }
 .timeline-comment {
-  overflow: hidden;
+  /* overflow: hidden; */
   margin-bottom: 10px;
   width: 100%;
   border-bottom: 1px solid #f1f1f1;

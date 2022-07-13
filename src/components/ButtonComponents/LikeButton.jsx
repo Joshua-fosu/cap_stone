@@ -35,6 +35,10 @@ export default function LikeButton({ userPostDetails }) {
       await updateDoc(postRef, {
         likes: increment(1),
         likesUsers: arrayUnion(userDetails?.userName),
+        comments: arrayUnion({
+          username: "test2",
+          comment: "Cool!",
+        }),
       });
     }
   };

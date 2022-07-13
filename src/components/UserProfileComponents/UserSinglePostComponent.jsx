@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LikeButton from "../ButtonComponents/LikeButton";
+import CommentButton from "../ButtonComponents/CommentButton";
+import PostTextBox from "../ButtonComponents/PostTextBox";
 import { Overlay, Popover, Button, OverlayTrigger } from "react-bootstrap";
 
 export default function UserSinglePostComponent({ userPost }) {
-  console.log("came here", userPost);
+  const [displayPostTextBox, setDisplayPostTextBox] = useState(false);
+
   return (
     <>
       <div className="col-md-12 grid-margin">
@@ -72,23 +75,11 @@ export default function UserSinglePostComponent({ userPost }) {
           <div className="card-footer">
             <div className="d-flex post-actions">
               <LikeButton userPostDetails={userPost} />
-              <a href="#" className="d-flex align-items-center text-muted mr-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-message-square icon-md"
-                >
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-                <p className="d-none d-md-block ml-2">Comment</p>
-              </a>
+              <CommentButton
+                displayPostTextBox={displayPostTextBox}
+                setDisplayPostTextBox={setDisplayPostTextBox}
+              />
+
               <a href="#" className="d-flex align-items-center text-muted">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -111,6 +102,13 @@ export default function UserSinglePostComponent({ userPost }) {
             </div>
           </div>
         </div>
+        {displayPostTextBox ? (
+          <>
+            <PostTextBox userPost={userPost} />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
