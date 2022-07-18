@@ -3,6 +3,7 @@ import LikeButton from "../ButtonComponents/LikeButton";
 import CommentButton from "../ButtonComponents/CommentButton";
 import PostTextBox from "../ButtonComponents/PostTextBox";
 import { Overlay, Popover, Button, OverlayTrigger } from "react-bootstrap";
+import "./UserSinglePostComponent.css";
 
 export default function UserSinglePostComponent({ userPost }) {
   const [displayPostTextBox, setDisplayPostTextBox] = useState(false);
@@ -52,10 +53,10 @@ export default function UserSinglePostComponent({ userPost }) {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-more-horizontal icon-lg pb-3px"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-more-horizontal icon-lg pb-3px"
                   >
                     <circle cx="12" cy="12" r="1"></circle>
                     <circle cx="19" cy="12" r="1"></circle>
@@ -66,11 +67,48 @@ export default function UserSinglePostComponent({ userPost }) {
             </div>
           </div>
           <div className="card-body">
-            <p className="mb-3 tx-14">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Accusamus minima delectus nemo unde quae recusandae assumenda.
+            <div
+              style={{
+                scrollSnapType: "x mandatory !important",
+                display: "flex",
+                WebkitOverflowScrolling: "touch",
+                overflowX: "auto",
+                gap: "10px",
+              }}
+            >
+              {userPost?.imageURL.length > 1 ? (
+                userPost?.imageURL.map((eachPost) => (
+                  <div
+                    className="snap-center"
+                    style={{
+                      scrollSnapAlign: "center",
+                      position: "relative",
+                      width: "100%",
+                      minWidth: "100%",
+                      flex: "0 0 50px",
+                      maxHeight: "30rem",
+                    }}
+                  >
+                    <img className="singlepost_img" src={eachPost} />
+                  </div>
+                ))
+              ) : (
+                <>
+                  <img
+                    className="singlepost_img"
+                    src={userPost?.imageURL}
+                    alt=""
+                    srcset=""
+                  />
+                </>
+              )}
+            </div>
+            <p className="mb-3 tx-14 text-muted text-lowercase">
+              {userPost?.eventName}
             </p>
-            <img className="img-fluid" src={userPost.imageURL} alt="" />
+            <p className="mb-3 tx-14 text-muted text-lowercase">
+              {userPost?.eventDescription}
+            </p>
           </div>
           <div className="card-footer">
             <div className="d-flex post-actions">

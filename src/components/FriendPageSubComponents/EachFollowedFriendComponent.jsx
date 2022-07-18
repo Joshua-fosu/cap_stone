@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { database } from "../../firebase/firebase";
 import { Link } from "react-router-dom";
+import { useUserData } from "../../contexts/UserDataContext";
 
 export default function EachFollowedFriendComponent({
   eachUserFollowedFriend,
 }) {
   const [userFriendDetails, setUserFriendDetails] = useState([]);
+  const { userDetails } = useUserData();
   useEffect(() => {
     async function fetchUserFriend() {
       const q = query(
@@ -43,7 +45,9 @@ export default function EachFollowedFriendComponent({
             <p class="text-muted">500m away</p>
           </div>
           <div class="col-md-3 col-sm-3">
-            <Link to={`/user/:user_id/${userFriendDetails?.userEmail}/view/`}>
+            <Link
+              to={`/user/${userDetails?.userID}/${userFriendDetails?.userID}/view/`}
+            >
               <button class="btn btn-primary pull-right">Go To Profile</button>
             </Link>
           </div>

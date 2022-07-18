@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../contexts/UserDataContext";
 import { setDoc, doc } from "firebase/firestore";
 import { database } from "../../firebase/firebase";
+import axios from "axios";
 
 export default function SignUpForm() {
   const multiAvatarAPI = "s6n39c8ltBQdAV";
@@ -30,30 +31,11 @@ export default function SignUpForm() {
     setUserName(userName.replace(/ +/g, ""));
 
     try {
-      signup(userEmailRef.current.value, userPasswordRef.current.value);
-      Navigate(`/user/${userName}`);
-
-      const newUser = {
-        userName: userName,
-        userEmail: userEmail,
-        numOfPosts: 0,
-        Following: 0,
-        userFriends: [],
-        Followers: 0,
-        About: "",
-        userAvatar_pic: `https://api.multiavatar.com/${userName}.svg?apikey=${multiAvatarAPI}`,
-        userID: user_id,
-        savedEvents: [],
-        createdAt: new Date().toLocaleDateString("en-us", {
-          weekday: "long",
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        }),
-      };
-
-      await setDoc(doc(database, "users", userEmail), newUser);
-      setUserDetails(newUser);
+      signup(
+        userEmailRef.current.value,
+        userPasswordRef.current.value,
+        userName
+      );
     } catch (err) {
       console.log(err);
     }

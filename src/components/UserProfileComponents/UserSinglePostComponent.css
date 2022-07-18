@@ -1,0 +1,6 @@
+.singlepost_img {
+  object-fit: cover !important;
+  object-position: 50% top;
+  width: 100%;
+  height: 95%;
+}

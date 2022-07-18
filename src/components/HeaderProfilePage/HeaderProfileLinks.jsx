@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useUserData } from "../../contexts/UserDataContext";
 
 export default function HeaderProfileLinks() {
+  const { userDetails } = useUserData();
   const initialState = { active: "Timeline" };
 
   function reducer(state, action) {
@@ -28,7 +30,7 @@ export default function HeaderProfileLinks() {
     <>
       <div className="header-links">
         <ul className="links d-flex align-items-center mt-3 mt-md-0">
-          <Link to="/user/user_id/">
+          <Link to={`/user/${userDetails?.userID}/`}>
             <li
               className={
                 state.active === "Timeline"
@@ -56,7 +58,7 @@ export default function HeaderProfileLinks() {
               </a>
             </li>
           </Link>
-          <Link to="/user/user_id/">
+          <Link to={`/user/${userDetails?.userID}/`}>
             <li
               className={
                 state.active === "About"
@@ -85,7 +87,7 @@ export default function HeaderProfileLinks() {
               </a>
             </li>
           </Link>
-          <Link to="/user/user_id/friends/">
+          <Link to={`/user/${userDetails?.userID}/friends`}>
             <li
               className={
                 state.active === "Friends"
@@ -112,11 +114,14 @@ export default function HeaderProfileLinks() {
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
               </svg>
               <a className="pt-1px d-none d-md-block" href="#">
-                Friends <span className="text-muted tx-12">3,765</span>
+                Friends{" "}
+                <span className="text-muted tx-12">
+                  ({userDetails?.followingFriends?.length})
+                </span>
               </a>
             </li>
           </Link>
-          <Link to="/user/user_id/events/">
+          <Link to={`/user/${userDetails?.userID}/events`}>
             <li
               className={
                 state.active === "Events"

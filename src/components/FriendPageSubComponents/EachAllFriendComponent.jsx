@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  increment,
+} from "firebase/firestore";
 import { database } from "../../firebase/firebase";
 import { useUserData } from "../../contexts/UserDataContext";
 
@@ -29,10 +35,12 @@ export default function EachAllFriendComponent({ eachFriend, userFriends }) {
 
       await updateDoc(addFriendRef, {
         followingFriends: arrayUnion(addedFriendID),
+        Following: increment(1),
       });
     } else {
       await updateDoc(addFriendRef, {
         followingFriends: arrayRemove(addedFriendID),
+        Following: increment(-1),
       });
     }
     setHasAddedFriend(hasAddedFriend ? false : true);
