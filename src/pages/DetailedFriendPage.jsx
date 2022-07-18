@@ -22,14 +22,23 @@ export default function DetailedFriendPage() {
 
   useEffect(() => {
     async function fetchFriendDetails() {
-      const friendDocRef = doc(database, "users", friend_id);
-      const friendDocSnap = await getDoc(friendDocRef);
-      setFriendDetails(friendDocSnap.data());
+      const q = query(
+        collection(database, "users"),
+        where("userID", "==", friend_id)
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setFriendDetails(doc.data());
+      });
+      // const friendDocRef = doc(database, "users", friend_id);
+      // const friendDocSnap = await getDoc(friendDocRef);
+      // setFriendDetails(friendDocSnap.data());
     }
     async function fetchFriendPosts() {
       const q = query(
         collection(database, "posts"),
-        where("userEmail", "==", friend_id)
+        where("userID", "==", friend_id)
       );
 
       const querySnapshot = await getDocs(q);
@@ -52,18 +61,17 @@ export default function DetailedFriendPage() {
           <div id="main-wrapper">
             <div className="row">
               <FriendAboutComponent friendDetails={friendDetails} />
-              {friendPosts.length !== 0 ? (
-                friendPosts.map((friendPost) => (
-                  <FriendPostComponent eachFriendPost={friendPost} />
-                ))
-              ) : (
-                <>
-                  <div className="col-lg-7 col-xl-6">
+              <div className="col-lg-7 col-xl-6 grid-margin">
+                {friendPosts.length !== 0 ? (
+                  friendPosts.map((friendPost) => (
+                    <FriendPostComponent eachFriendPost={friendPost} />
+                  ))
+                ) : (
+                  <>
                     <p>There are no posts</p>
-                  </div>
-                </>
-              )}
-
+                  </>
+                )}
+              </div>
               <div className="col-lg-12 col-xl-3">
                 <FriendSubscribedFriendsComponent
                   userFriends={friendDetails?.followingFriends}

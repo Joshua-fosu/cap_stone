@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { database } from "../firebase/firebase";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserDataContext = React.createContext();
 
@@ -25,6 +26,7 @@ export function UserDataProvider({ children }) {
   const [userSuggestedProfiles, setUserSuggestedProfiles] = useState([]);
   const [includeInFeed, setIncludeInFeed] = useState([]);
   const [userEmail, setUserEmail] = useState("");
+  const Navigate = useNavigate();
 
   async function getUserDetails(currentUserEmail) {
     console.log("Hello");
@@ -34,20 +36,25 @@ export function UserDataProvider({ children }) {
       const docSnap = await getDoc(docRef);
       setUserDetails(docSnap.data());
       getSuggestedProfiles(currentUserEmail);
+      Navigate(`/user/${docSnap.data().userID}/`);
       return docSnap.data().userEmail;
     } catch (err) {
       console.log("Unable to read", err);
     }
   }
 
-  async function uploadImageObject(url) {
+  async function uploadImageObject(url, eventName, eventDescription) {
     console.log("url", url);
-    const res = await axios.get(
-      "https://random.justyy.workers.dev/api/random/?cached&n=15"
-    );
-    console.log("hash", res);
+    const id = "_" + Math.random().toString(36).substr(4, 19);
+    // const res = await axios.get(
+    //   "https://random.justyy.workers.dev/api/random/?cached&n=15"
+    // );
+    // console.log("hash", res);
     const newImgObj = {
+      userID: userDetails.userID,
       userDetails: userDetails,
+      eventName: eventName,
+      eventDescription: eventDescription,
       imageURL: url,
       userName: userDetails.userName,
       userEmail: userDetails.userEmail,
@@ -59,10 +66,10 @@ export function UserDataProvider({ children }) {
         month: "short",
         day: "numeric",
       }),
-      id: res?.data,
+      id: id,
     };
     // await addDoc(collection(database, "posts"), newImgObj);
-    await setDoc(doc(database, "posts", res.data), newImgObj);
+    await setDoc(doc(database, "posts", id), newImgObj);
   }
 
   async function getSuggestedProfiles(userEmail) {

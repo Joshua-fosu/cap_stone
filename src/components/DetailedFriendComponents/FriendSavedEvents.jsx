@@ -28,7 +28,7 @@ export default function FriendSavedEvents({ friendSavedEvents }) {
               <Toast.Header closeButton={false}>
                 <img
                   src="holder.js/20x20?text=%20"
-                  classNameName="rounded me-2"
+                  className="rounded me-2"
                   alt=""
                 />
                 <strong classNameName="me-auto">

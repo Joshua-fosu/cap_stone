@@ -20,13 +20,13 @@ export default function HeaderProfileBackgroundImg() {
           <div>
             <img
               className="profile-pic"
-              src={userDetails.userAvatar_pic}
+              src={userDetails?.userAvatar_pic}
               alt="profile"
             />
-            <span className="profile-name">@{userDetails.userName}</span>
+            <span className="profile-name">@{userDetails?.userName}</span>
           </div>
           <div className="d-none d-md-block">
-            <Link to="/user/user_id/create_post/">
+            <Link to={`/user/${userDetails?.userID}/create_post/`}>
               <button className="btn btn-primary btn-icon-text btn-edit-profile">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

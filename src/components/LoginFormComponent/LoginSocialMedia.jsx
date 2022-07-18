@@ -23,35 +23,7 @@ export default function LoginSocialMedia() {
 
   const handleOnClick = async (provider) => {
     try {
-      const userDetails = await socialMediaAuth(provider);
-      const userName = userDetails.displayName.replace(/ +/g, "");
-      Navigate(`/user/${userName}`);
-
-      const userRef = doc(database, "users", userDetails.email);
-      const docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        setUserDetails(docSnap.data());
-      } else {
-        await setDoc(doc(database, "users", userDetails.email), {
-          userName: userName,
-          userEmail: userDetails.email,
-          numOfPosts: 0,
-          Following: 0,
-          userFriends: [],
-          Followers: 0,
-          About: "",
-          userAvatar_pic: `https://api.multiavatar.com/${userName}.svg?apikey=${multiAvatarAPI}`,
-          userID: user_id,
-          savedEvents: 0,
-          createdAt: new Date().toLocaleDateString("en-us", {
-            weekday: "long",
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          }),
-        });
-      }
+      await socialMediaAuth(provider);
     } catch (err) {}
   };
 
