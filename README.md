@@ -9,16 +9,9 @@ React App - 11 July 2022 - Watch Video
 Left to be worked on for later
 
 1. Display error messages on log in, and sign up.
-2. Pagination on the events, timeline tab.
-3. Clickable suggested friends to respective profiles
-4. Extra styling on event's tab.
-5. Including form on the 'upload tab' for user to include text to post.
-6. Order posts on timeline by recent.
-7. Working on the friends view.
-8. Implementing liking, and commenting on posts.
-9. Removing file after uploading
-10. Displaying progress bar when uploading new post.
-11. Implementing lazy loading.
+2. Clickable suggested friends to respective profiles
+3. Extra styling on event's tab.
+4. Order posts on timeline by recent.
+5. Removing file after uploading
+6. Implementing lazy loading.
 
-Currently working on:
-Implementing a simple Javascript game on the "Not Found Page"
