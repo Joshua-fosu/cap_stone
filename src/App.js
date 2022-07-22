@@ -13,13 +13,13 @@ import { useAuth } from "./contexts/AuthContext";
 
 function App() {
   const { isLoggedIn } = useAuth();
-  console.log("is Logged in", isLoggedIn);
 
   return (
     <>
       <div>
         <Routes>
           <Route
+            exact
             path={ROUTES.BASE_AUTHENTICATED}
             element={
               <ProtectedRoute>
@@ -27,7 +27,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          <Route exact path={ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
         </Routes>
       </div>

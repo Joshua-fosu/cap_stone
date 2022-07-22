@@ -1,6 +1,7 @@
 import React from "react";
 import { useUserData } from "../../contexts/UserDataContext";
 import { useAuth } from "../../contexts/AuthContext";
+import UserStatus from "./UserStatus";
 
 export default function UserAboutComponent() {
   const { userDetails } = useUserData();
@@ -215,6 +216,7 @@ export default function UserAboutComponent() {
             </div>
           </div>
         </div>
+        <UserStatus />
       </div>
     </>
   );

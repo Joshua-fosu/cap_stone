@@ -32,7 +32,7 @@ export default function ExploreEventsPage() {
   if (filterEvent !== "") {
     eventsFiltered = events.filter((event) => {
       var typedLowerCase = filterEvent.toLowerCase();
-      var eventTitleLowerCase = event.title.toLowerCase();
+      var eventTitleLowerCase = event.name.toLowerCase();
       console.log(eventTitleLowerCase);
       return eventTitleLowerCase.includes(typedLowerCase);
     });
@@ -45,8 +45,21 @@ export default function ExploreEventsPage() {
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    const fetchTicketMasterEvents = async () => {
+      const data = await axios.get(
+        "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=xAUT6SWiZgDpKhJFiEoGXRuo4igpPS26"
+      );
+      console.log("ricket", data);
+    };
+    fetchTicketMasterEvents();
+    console.log("current posts", currentPosts);
+  }, [currentPosts]);
+
   return (
     <>
+      <EventPageModalComponent events={events} />
       <Row>
         <EventSearchbar setFilterEvent={setFilterEvent} />
         <Col sm={9} style={{ alignContent: "space-between", alignItems: "" }}>
@@ -60,17 +73,11 @@ export default function ExploreEventsPage() {
                     marginBottom: "1rem",
                   }}
                 >
-                  <Card.Img
-                    variant="top"
-                    src="https://image.shutterstock.com/image-vector/events-colorful-typography-banner-260nw-1356206768.jpg"
-                  />
+                  <Card.Img variant="top" src={event?.images[7]?.url} />
                   <Card.Body>
                     <Card.Title className="truncate-header">
-                      {event.title}
+                      {event.name}
                     </Card.Title>
-                    <Card.Text className="truncate-event-description">
-                      {event.description ? event.description : noDescription}
-                    </Card.Text>
                     <Button
                       variant="primary"
                       className="btn-primary"

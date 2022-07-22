@@ -31,12 +31,9 @@ export default function EventPageSideDetails({ eventID }) {
     <>
       {specEvent.length !== 0 ? (
         <Card style={{ width: "100%", marginTop: "1rem" }}>
-          <Card.Img
-            variant="top"
-            src="https://image.shutterstock.com/image-vector/events-colorful-typography-banner-260nw-1356206768.jpg"
-          />
+          <Card.Img variant="top" src={specEvent[0]?.images[7]?.url} />
           <Card.Body>
-            <Card.Title>{specEvent[0].title}</Card.Title>
+            <Card.Title>{specEvent[0]?.name}</Card.Title>
             <Card.Text>
               Some quick example text to build on the card title and make up the
               bulk of the card's content.

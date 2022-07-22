@@ -120,7 +120,7 @@ body {
 
 .profile-page .profile-body .left-wrapper .social-links a {
   width: 30px;
-  height: 30px;
+  /* height: 30px; */
 }
 
 .profile-page .profile-body .right-wrapper .latest-photos > .row {
