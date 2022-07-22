@@ -46,10 +46,6 @@ export function UserDataProvider({ children }) {
   async function uploadImageObject(url, eventName, eventDescription) {
     console.log("url", url);
     const id = "_" + Math.random().toString(36).substr(4, 19);
-    // const res = await axios.get(
-    //   "https://random.justyy.workers.dev/api/random/?cached&n=15"
-    // );
-    // console.log("hash", res);
     const newImgObj = {
       userID: userDetails.userID,
       userDetails: userDetails,
@@ -68,7 +64,6 @@ export function UserDataProvider({ children }) {
       }),
       id: id,
     };
-    // await addDoc(collection(database, "posts"), newImgObj);
     await setDoc(doc(database, "posts", id), newImgObj);
   }
 
@@ -90,24 +85,127 @@ export function UserDataProvider({ children }) {
     return userSuggestedProfiles;
   }
 
+  const getAttendees = async (eventToAdd) => {
+    const q = query(
+      collection(database, "users"),
+      where("savedEvents", "array-contains", eventToAdd[0]?.id)
+    );
+
+    const querySnapshot = await getDocs(q);
+    var interArr = [];
+    querySnapshot.forEach((doc) => {
+      interArr.push(doc.data()?.userEmail);
+    });
+    interArr.filter((attendee) => {
+      return attendee !== userDetails?.userName;
+    });
+
+    return interArr;
+  };
+
+  const setEventStartEndTime = (eventToAdd) => {
+    const startTime = eventToAdd[0]?.dates?.start?.dateTime;
+    console.log("start time", eventToAdd[0]?._embedded?.venues[0]?.timezone);
+    var futureDate = new Date(Date.parse(startTime) + 30 * 60000);
+    const endTime = futureDate.toISOString();
+    const timeZone = eventToAdd[0]?._embedded?.venues[0]?.timezone;
+
+    const startEndTimes = {
+      start: startTime,
+      end: endTime,
+      timeZone: timeZone,
+    };
+    return startEndTimes;
+  };
+
+  const addToCalendar = (event) => {
+    var gapi = window.gapi;
+
+    var CLIENT_ID =
+      "200592532449-ieu5ld03a7abkbedtlvvfbdv2aolktl1.apps.googleusercontent.com";
+    var API_KEY = "AIzaSyAc1wXM5yPn380XdavL4BciDBKtqCcx8eM";
+    var DISCOVERY_DOCS = [
+      "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+    ];
+    var SCOPES = "https://www.googleapis.com/auth/calendar.events";
+
+    let eventToAdd = events?.filter((eachEvent) => {
+      return eachEvent?.id === event.target.id;
+    });
+
+    console.log("found event", eventToAdd);
+    const attendees = getAttendees(eventToAdd);
+    const startEndTimes = setEventStartEndTime(eventToAdd);
+
+    gapi.load("client:auth2", () => {
+      gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES,
+      });
+
+      gapi.client.load("calendar", "v3", () => console.log("bam!"));
+
+      gapi.auth2
+        .getAuthInstance()
+        .signIn()
+        .then(() => {
+          var event = {
+            summary: eventToAdd[0]?.name,
+            location: eventToAdd[0]?._embedded?.venues[0]?.address?.line1,
+            description: "This event was added from the ReachMe App",
+            start: {
+              dateTime: startEndTimes?.start,
+              timeZone: startEndTimes?.timeZone,
+            },
+            end: {
+              dateTime: startEndTimes?.end,
+              timeZone: startEndTimes?.timeZone,
+            },
+            recurrence: ["RRULE:FREQ=DAILY;COUNT=1"],
+            attendees: attendees,
+            reminders: {
+              useDefault: false,
+              overrides: [
+                { method: "email", minutes: 24 * 60 },
+                { method: "popup", minutes: 10 },
+              ],
+            },
+          };
+
+          var request = gapi.client.calendar?.events.insert({
+            calendarId: "primary",
+            resource: event,
+          });
+
+          request?.execute((event) => {
+            console.log(event);
+            window.open(event.htmlLink);
+          });
+        });
+    });
+  };
+
   const config = {
     headers: {
       Accept: "application/json",
       Authorization: "Bearer FaxaHps5PGFaZI7qmJF-qb62W-xehMjApnKARcuj",
     },
   };
-  const URL = "https://api.predicthq.com/v1/events/?limit=200&offset=200";
+  // const URL = "https://api.predicthq.com/v1/events/?limit=200&offset=200";
+  const URL =
+    "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=xAUT6SWiZgDpKhJFiEoGXRuo4igpPS26";
 
   useEffect(() => {
     async function fetchEvents() {
       // You can await here
       const response = await axios
-        .get(URL, config)
+        .get(URL)
         .then((res) => {
-          setEvents(res.data.results);
+          setEvents(res.data._embedded.events);
         })
         .catch((err) => console.log(err));
-      // ...
     }
     fetchEvents();
   }, []);
@@ -121,6 +219,7 @@ export function UserDataProvider({ children }) {
     userSuggestedProfiles,
     events,
     setUserSuggestedProfiles,
+    addToCalendar,
   };
 
   return (

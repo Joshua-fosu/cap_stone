@@ -22,7 +22,7 @@ export default function EventPageModalComponent(props) {
 
   const addToSavedEvents = async (event) => {
     const userDocRef = doc(database, "users", userDetails?.userEmail);
-    console.log("user doc ref", userDocRef);
+
     await updateDoc(userDocRef, {
       savedEvents: eventDetails,
     });

@@ -1,13 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { Toast, ToastContainer } from "react-bootstrap";
+import { Toast, ToastContainer, Button } from "react-bootstrap";
 import blackImg from "./A_black_image.jpg";
 import { useUserData } from "../../contexts/UserDataContext";
-import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  getDoc,
+  collection,
+  addDoc,
+} from "firebase/firestore";
 import { database } from "../../firebase/firebase";
+import { gapi } from "gapi-script";
+import ApiCalendar from "react-google-calendar-api";
+
+//AIzaSyAc1wXM5yPn380XdavL4BciDBKtqCcx8eM
 
 export default function UserSavedEventsComponent() {
   const [toastSavedEvents, setToastSavedEvents] = useState([]);
-  const { userDetails, events } = useUserData();
+  const { userDetails, events, addToCalendar } = useUserData();
+
+  const config = {
+    clientId:
+      "200592532449-ieu5ld03a7abkbedtlvvfbdv2aolktl1.apps.googleusercontent.com",
+    apiKey: "AIzaSyAc1wXM5yPn380XdavL4BciDBKtqCcx8eM",
+    scope: "https://www.googleapis.com/auth/calendar",
+    discoveryDocs: [
+      "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+    ],
+  };
+
+  const apiCalendar = new ApiCalendar(config);
+
+  const addToStatus = () => {
+    toastSavedEvents.forEach(async (eachSavedEvent) => {
+      console.log("each", eachSavedEvent);
+      const docRef = await addDoc(collection(database, "statuses"), {
+        name: eachSavedEvent?.name,
+        id: eachSavedEvent?.id,
+        image: eachSavedEvent?.images[7]?.url,
+        owner: userDetails?.userName,
+      });
+    });
+  };
 
   useEffect(() => {
     async function fetchSavedEvents() {
@@ -38,7 +74,7 @@ export default function UserSavedEventsComponent() {
               <div className="row">
                 {toastSavedEvents.length !== 0 ? (
                   toastSavedEvents.map((toastSavedEvent) => (
-                    <Toast>
+                    <Toast className="mb-2">
                       <Toast.Header closeButton={false}>
                         <img
                           src="holder.js/20x20?text=%20"
@@ -46,12 +82,30 @@ export default function UserSavedEventsComponent() {
                           alt=""
                         />
                         <strong classNameName="me-auto">
-                          {toastSavedEvent.title}
+                          {toastSavedEvent?.name}
                         </strong>
                         <small>11 mins ago</small>
                       </Toast.Header>
                       <Toast.Body>
-                        Hello, world! This is a toast message.
+                        <Button
+                          onClick={addToStatus}
+                          style={{
+                            backgroundColor: "blue",
+                            fontSize: "0.5rem",
+                          }}
+                        >
+                          Add To Status
+                        </Button>
+                        <Button
+                          onClick={addToCalendar}
+                          style={{
+                            backgroundColor: "blue",
+                            fontSize: "0.5rem",
+                          }}
+                          id={toastSavedEvent?.id}
+                        >
+                          Add To Calendar
+                        </Button>
                       </Toast.Body>
                     </Toast>
                   ))
