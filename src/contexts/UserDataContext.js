@@ -9,6 +9,7 @@ import {
   doc,
   setDoc,
   limit,
+  Timestamp,
 } from "firebase/firestore";
 import { database } from "../firebase/firebase";
 import axios from "axios";
@@ -29,7 +30,6 @@ export function UserDataProvider({ children }) {
   const Navigate = useNavigate();
 
   async function getUserDetails(currentUserEmail) {
-    console.log("Hello");
     try {
       setUserEmail(currentUserEmail);
       const docRef = doc(database, "users", currentUserEmail);
@@ -43,8 +43,30 @@ export function UserDataProvider({ children }) {
     }
   }
 
+  async function addNewFriendRoom(friendID) {
+    const q = query(
+      collection(database, "users"),
+      where("userName", "==", friendID)
+    );
+    var newObjj = {};
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      var newObj = {
+        userName: doc.data().userName,
+        userAvartar: doc.data().userAvatar_pic,
+      };
+      newObjj = newObj;
+    });
+    const docRef = await addDoc(collection(database, "rooms"), {
+      owners: [newObjj.userName, userDetails?.userName],
+    });
+    await setDoc(doc(database, "messages", docRef.id), {
+      messages: [],
+    });
+  }
+
   async function uploadImageObject(url, eventName, eventDescription) {
-    console.log("url", url);
     const id = "_" + Math.random().toString(36).substr(4, 19);
     const newImgObj = {
       userID: userDetails.userID,
@@ -57,12 +79,13 @@ export function UserDataProvider({ children }) {
       comments: [],
       likes: 0,
       likesUsers: [],
-      createdAt: new Date().toLocaleDateString("en-us", {
-        weekday: "long",
-        month: "short",
-        day: "numeric",
-      }),
+      // createdAt: new Date().toLocaleDateString("en-us", {
+      //   weekday: "long",
+      //   month: "short",
+      //   day: "numeric",
+      // }),
       id: id,
+      createdAt: new Date().toISOString(),
     };
     await setDoc(doc(database, "posts", id), newImgObj);
   }
@@ -105,7 +128,6 @@ export function UserDataProvider({ children }) {
 
   const setEventStartEndTime = (eventToAdd) => {
     const startTime = eventToAdd[0]?.dates?.start?.dateTime;
-    console.log("start time", eventToAdd[0]?._embedded?.venues[0]?.timezone);
     var futureDate = new Date(Date.parse(startTime) + 30 * 60000);
     const endTime = futureDate.toISOString();
     const timeZone = eventToAdd[0]?._embedded?.venues[0]?.timezone;
@@ -220,6 +242,7 @@ export function UserDataProvider({ children }) {
     events,
     setUserSuggestedProfiles,
     addToCalendar,
+    addNewFriendRoom,
   };
 
   return (

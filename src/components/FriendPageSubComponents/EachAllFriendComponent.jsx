@@ -15,6 +15,7 @@ export default function EachAllFriendComponent({ eachFriend, userFriends }) {
     setUserDetails,
     userSuggestedProfiles,
     setUserSuggestedProfiles,
+    addNewFriendRoom,
   } = useUserData();
   const [hasAddedFriend, setHasAddedFriend] = useState(false);
   const [addedFriendID, setAddedFriendID] = useState("");
@@ -37,6 +38,7 @@ export default function EachAllFriendComponent({ eachFriend, userFriends }) {
         followingFriends: arrayUnion(addedFriendID),
         Following: increment(1),
       });
+      addNewFriendRoom(addedFriendID);
     } else {
       await updateDoc(addFriendRef, {
         followingFriends: arrayRemove(addedFriendID),

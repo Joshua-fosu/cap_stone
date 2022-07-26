@@ -9,6 +9,7 @@ import ExploreFriendsPage from "./ExploreFriendsPage";
 import CreatePostPage from "./CreatePostPage";
 import UserProfile from "./UserProfile";
 import DetailedFriendPage from "./DetailedFriendPage";
+import UserChatPage from "./UserChatPage";
 
 export default function BaseAuthenticatedPage() {
   return (
@@ -29,6 +30,7 @@ export default function BaseAuthenticatedPage() {
               path={ROUTES.DETAILED_FRIEND_PAGE_VIEW}
               element={<DetailedFriendPage />}
             />
+            <Route path={ROUTES.CHAT} element={<UserChatPage />} />
           </Routes>
         </div>
       </div>
