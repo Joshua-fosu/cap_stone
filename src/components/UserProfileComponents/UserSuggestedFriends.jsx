@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useUserData } from "../../contexts/UserDataContext";
 import { Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function UserSuggestedFriends() {
-  const { getSuggestedProfiles, userSuggestedProfiles } = useUserData();
+  const { getSuggestedProfiles, userSuggestedProfiles, userDetails } =
+    useUserData();
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Simple tooltip
@@ -30,13 +32,17 @@ export default function UserSuggestedFriends() {
                       }
                     >
                       <div className="col-md-4">
-                        <figure>
-                          <img
-                            className="img-fluid"
-                            src={friend.userAvatar_pic}
-                            alt=""
-                          />
-                        </figure>
+                        <Link
+                          to={`/user/${userDetails?.userID}/${friend?.userID}/view/`}
+                        >
+                          <figure>
+                            <img
+                              className="img-fluid"
+                              src={friend.userAvatar_pic}
+                              alt=""
+                            />
+                          </figure>
+                        </Link>
                       </div>
                     </OverlayTrigger>
                   ))

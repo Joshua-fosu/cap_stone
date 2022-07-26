@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUserData } from "../../contexts/UserDataContext";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { database } from "../../firebase/firebase";
 import UserSinglePostComponent from "./UserSinglePostComponent";
 
@@ -16,6 +16,7 @@ export default function UserFeedComponent() {
       ];
       const q = query(
         collection(database, "posts"),
+        orderBy("createdAt"),
         where("userName", "in", includedInPost)
       );
       let eachArr = [];

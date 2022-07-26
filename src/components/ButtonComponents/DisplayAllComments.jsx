@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { database } from "../../firebase/firebase";
+import { findTimeElapsed } from "../../utils/TimeConversion";
 
 export default function DisplayAllComments({ userPost }) {
   const [allComments, setAllComments] = useState([]);
@@ -22,7 +23,8 @@ export default function DisplayAllComments({ userPost }) {
             <div class="timeline-comment-header">
               <img src={comment?.userAvartar} alt="" />
               <p>
-                {comment?.userName} <small>1 hour ago</small>
+                {comment?.userName}{" "}
+                <small>{findTimeElapsed(comment?.createdAt)}</small>
               </p>
             </div>
             <p class="timeline-comment-text">{comment.comment}</p>

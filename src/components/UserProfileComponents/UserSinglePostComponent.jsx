@@ -3,10 +3,16 @@ import LikeButton from "../ButtonComponents/LikeButton";
 import CommentButton from "../ButtonComponents/CommentButton";
 import PostTextBox from "../ButtonComponents/PostTextBox";
 import { Overlay, Popover, Button, OverlayTrigger } from "react-bootstrap";
+import { findTimeElapsed } from "../../utils/TimeConversion";
 import "./UserSinglePostComponent.css";
 
 export default function UserSinglePostComponent({ userPost }) {
   const [displayPostTextBox, setDisplayPostTextBox] = useState(false);
+  const [displayTimeElapsed, setDisplayTimeElapsed] = useState("");
+
+  useEffect(() => {
+    setDisplayTimeElapsed(findTimeElapsed(userPost?.createdAt));
+  }, []);
 
   return (
     <>
@@ -22,7 +28,7 @@ export default function UserSinglePostComponent({ userPost }) {
                 />
                 <div className="ml-2">
                   <p>@{userPost.userName}</p>
-                  <p className="tx-11 text-muted">1 min ago</p>
+                  <p className="tx-11 text-muted">{displayTimeElapsed}</p>
                 </div>
               </div>
               <OverlayTrigger

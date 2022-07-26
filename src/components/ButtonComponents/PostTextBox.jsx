@@ -8,6 +8,7 @@ import {
   increment,
 } from "firebase/firestore";
 import { database } from "../../firebase/firebase";
+
 import DisplayAllComments from "./DisplayAllComments";
 
 export default function PostTextBox({ userPost }) {
@@ -26,6 +27,7 @@ export default function PostTextBox({ userPost }) {
         userName: userDetails?.userName,
         userAvartar: userDetails?.userAvatar_pic,
         comment: commentRef.current.value,
+        createdAt: new Date().toISOString(),
       }),
     });
     setUserPostText("");
