@@ -8,7 +8,9 @@ React App - 11 July 2022 - Watch Video
 
 Left to be worked on for later
 
-Working on.
-Apply lazy loader to user's feed, and event page.
-Implementing double-tap to like image.
-Sorting events based on proximity.
+1. Display error messages on log in, and sign up.
+2. Clickable suggested friends to respective profiles
+3. Extra styling on event's tab.
+4. Order posts on timeline by recent.
+5. Removing file after uploading
+6. Implementing lazy loading.
