@@ -79,11 +79,6 @@ export function UserDataProvider({ children }) {
       comments: [],
       likes: 0,
       likesUsers: [],
-      // createdAt: new Date().toLocaleDateString("en-us", {
-      //   weekday: "long",
-      //   month: "short",
-      //   day: "numeric",
-      // }),
       id: id,
       createdAt: new Date().toISOString(),
     };
@@ -92,7 +87,6 @@ export function UserDataProvider({ children }) {
 
   async function getSuggestedProfiles(userEmail) {
     const arrProfiles = [];
-    console.log("This is", userEmail);
     const q = query(
       collection(database, "users"),
       where("userEmail", "!=", userEmail)
@@ -154,8 +148,6 @@ export function UserDataProvider({ children }) {
     let eventToAdd = events?.filter((eachEvent) => {
       return eachEvent?.id === event.target.id;
     });
-
-    console.log("found event", eventToAdd);
     const attendees = getAttendees(eventToAdd);
     const startEndTimes = setEventStartEndTime(eventToAdd);
 

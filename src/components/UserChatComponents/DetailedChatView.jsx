@@ -19,15 +19,12 @@ export default function DetailedChatView({ friendToChat, setFriendToChat }) {
   const [chatHistory, setChatHistory] = useState([]);
   const { userDetails } = useUserData();
   let { chat_id } = useParams();
-  console.log(chat_id);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      console.log("friendToChat", friendToChat);
       const unsub = onSnapshot(
         doc(database, "messages", friendToChat?.id),
         (doc) => {
-          console.log("Current data: ", doc.data());
           if (doc.data().messages.length !== 0) {
             setChatHistory(doc.data().messages);
           } else {
@@ -40,7 +37,6 @@ export default function DetailedChatView({ friendToChat, setFriendToChat }) {
   }, [friendToChat]);
 
   const sendMessage = async () => {
-    console.log("user typed message", typedMessage);
     let toSendMessage = typedMessage;
     setChatHistory([
       ...chatHistory,
