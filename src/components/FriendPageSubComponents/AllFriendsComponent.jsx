@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./AllFriendsComponent.css";
 import FilterFriendsByStartLetter from "./FilterFriendsByStartLetter";
 import EachAllFriendComponent from "./EachAllFriendComponent";
+import UserChatSkeleton from "../SkeletonLoaders/UserChatSkeleton";
 import {
   doc,
   updateDoc,
@@ -17,6 +18,7 @@ import { useUserData } from "../../contexts/UserDataContext";
 export default function AllFriendsComponent() {
   const [allFriends, setAllFriends] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { userSuggestedProfiles } = useUserData();
   const { userDetails } = useUserData();
 
@@ -35,6 +37,7 @@ export default function AllFriendsComponent() {
       querySnapshot.forEach((doc) => {
         setUserFriends(doc.data().followingFriends);
       });
+      setLoading(false);
     }
 
     fetchAllFriends();
@@ -45,10 +48,14 @@ export default function AllFriendsComponent() {
     <>
       <div className="row">
         <div className="col-md-12">
-          <div className="block">
+          <div className="block" style={{ minHeight: "70vh" }}>
             <FilterFriendsByStartLetter />
             <div className="row style-alt">
-              {allFriends.length !== 0 ? (
+              {loading ? (
+                <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                  <UserChatSkeleton />{" "}
+                </div>
+              ) : allFriends.length !== 0 ? (
                 allFriends.map((eachFriend) => (
                   <>
                     <EachAllFriendComponent
