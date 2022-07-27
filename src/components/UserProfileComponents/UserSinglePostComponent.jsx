@@ -95,7 +95,13 @@ export default function UserSinglePostComponent({ userPost }) {
                       maxHeight: "30rem",
                     }}
                   >
-                    <img className="singlepost_img" src={eachPost} />
+                    <img
+                      className="singlepost_img"
+                      src={eachPost}
+                      onDoubleClick={(e) => {
+                        console.log("double clicked");
+                      }}
+                    />
                   </div>
                 ))
               ) : (
@@ -105,6 +111,9 @@ export default function UserSinglePostComponent({ userPost }) {
                     src={userPost?.imageURL}
                     alt=""
                     srcset=""
+                    onDoubleClick={() => {
+                      console.log("double clicked");
+                    }}
                   />
                 </>
               )}

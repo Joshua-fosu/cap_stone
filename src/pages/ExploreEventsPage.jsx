@@ -14,6 +14,7 @@ import EventSearchbar from "../components/EventPageComponent/EventSearchbar";
 import EventPageSideDetails from "../components/EventPageComponent/EventPageSideDetails";
 import { useUserData } from "../contexts/UserDataContext";
 import Paginationn from "../components/Pagination/Pagination";
+import UserProfileSkeleton from "../components/SkeletonLoaders/UserProfileSkeleton";
 
 export default function ExploreEventsPage() {
   const [eventID, setEventID] = useState("");
@@ -21,7 +22,7 @@ export default function ExploreEventsPage() {
   const [filterEvent, setFilterEvent] = useState("");
   const { events } = useUserData();
   const [posts, setPosts] = useState(events);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(9);
   const indexOfLastPost = currentPage * postsPerPage;
@@ -33,7 +34,7 @@ export default function ExploreEventsPage() {
     eventsFiltered = events.filter((event) => {
       var typedLowerCase = filterEvent.toLowerCase();
       var eventTitleLowerCase = event.name.toLowerCase();
-      console.log(eventTitleLowerCase);
+
       return eventTitleLowerCase.includes(typedLowerCase);
     });
     currentPosts = eventsFiltered.slice(indexOfFirstPost, indexOfLastPost);
@@ -51,65 +52,76 @@ export default function ExploreEventsPage() {
       const data = await axios.get(
         "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=xAUT6SWiZgDpKhJFiEoGXRuo4igpPS26"
       );
-      console.log("ricket", data);
+      setLoading(false);
     };
     fetchTicketMasterEvents();
-    console.log("current posts", currentPosts);
   }, [currentPosts]);
 
   return (
     <>
-      <EventPageModalComponent events={events} />
-      <Row>
-        <EventSearchbar setFilterEvent={setFilterEvent} />
-        <Col sm={9} style={{ alignContent: "space-between", alignItems: "" }}>
-          <Row style={{ alignContent: "space-between", marginTop: "1rem" }}>
-            {currentPosts.map((event, idx) => (
-              <>
-                <Card
-                  style={{
-                    width: "18rem",
-                    marginRight: "1rem",
-                    marginBottom: "1rem",
-                  }}
-                >
-                  <Card.Img variant="top" src={event?.images[7]?.url} />
-                  <Card.Body>
-                    <Card.Title className="truncate-header">
-                      {event.name}
-                    </Card.Title>
-                    <Button
-                      variant="primary"
-                      className="btn-primary"
-                      id={event.id}
-                      onClick={(event) => {
-                        setModalShow(true);
-                        console.log("id", event.target.id);
-                        setEventID(event.target.id);
+      {loading ? (
+        <>
+          {" "}
+          <UserProfileSkeleton />{" "}
+        </>
+      ) : (
+        <>
+          {" "}
+          <Row>
+            <EventSearchbar setFilterEvent={setFilterEvent} />
+            <Col
+              sm={9}
+              style={{ alignContent: "space-between", alignItems: "" }}
+            >
+              <Row style={{ alignContent: "space-between", marginTop: "1rem" }}>
+                {currentPosts.map((event, idx) => (
+                  <>
+                    <Card
+                      style={{
+                        width: "18rem",
+                        marginRight: "1rem",
+                        marginBottom: "1rem",
                       }}
-                      style={{ backgroundColor: "blue" }}
                     >
-                      See details
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </>
-            ))}
-            {filterEvent === "" ? (
-              <Paginationn
-                postsPerPage={postsPerPage}
-                totalPosts={posts?.length}
-                paginate={paginate}
-              />
-            ) : (
-              <></>
-            )}
+                      <Card.Img variant="top" src={event?.images[7]?.url} />
+                      <Card.Body>
+                        <Card.Title className="truncate-header">
+                          {event.name}
+                        </Card.Title>
+                        <Button
+                          variant="primary"
+                          className="btn-primary"
+                          id={event.id}
+                          onClick={(event) => {
+                            setModalShow(true);
+
+                            setEventID(event.target.id);
+                          }}
+                          style={{ backgroundColor: "blue" }}
+                        >
+                          See details
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </>
+                ))}
+                {filterEvent === "" ? (
+                  <Paginationn
+                    postsPerPage={postsPerPage}
+                    totalPosts={posts?.length}
+                    paginate={paginate}
+                  />
+                ) : (
+                  <></>
+                )}
+              </Row>
+            </Col>
+            <Col sm={3}>
+              <EventPageSideDetails eventID={eventID} />
+            </Col>
           </Row>
-        </Col>
-        <Col sm={3}>
-          <EventPageSideDetails eventID={eventID} />
-        </Col>
-      </Row>
+        </>
+      )}
     </>
   );
 }
