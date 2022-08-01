@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import LikeButton from "../ButtonComponents/LikeButton";
 import CommentButton from "../ButtonComponents/CommentButton";
 import PostTextBox from "../ButtonComponents/PostTextBox";
 
+import { findTimeElapsed } from "../../utils/TimeConversion";
+
 export default function FriendPostComponent({ eachFriendPost }) {
   const [displayPostTextBox, setDisplayPostTextBox] = useState(false);
+  const [displayTimeElapsed, setDisplayTimeElapsed] = useState("");
+
+  useEffect(() => {
+    setDisplayTimeElapsed(findTimeElapsed(eachFriendPost?.createdAt));
+  }, []);
 
   return (
     <>
@@ -20,7 +27,7 @@ export default function FriendPostComponent({ eachFriendPost }) {
               />
               <div className="ml-2">
                 <p>@{eachFriendPost?.userName}</p>
-                <p className="tx-11 text-muted">1 min ago</p>
+                <p className="tx-11 text-muted">{displayTimeElapsed}</p>
               </div>
             </div>
             <OverlayTrigger
