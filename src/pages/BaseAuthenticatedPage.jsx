@@ -20,26 +20,25 @@ export default function BaseAuthenticatedPage() {
           {" "}
           <HeaderProfilePage />
           <Routes>
-            <Route path={ROUTES.PROFILE} element={<UserProfile />} />
+            <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
+            <Route exact path={ROUTES.PROFILE} element={<UserProfile />} />
             <Route
+              exact
               path={ROUTES.EXPLORE_FRIENDS}
               element={<ExploreFriendsPage />}
             />
-            <Route path={ROUTES.CREATE_POST} element={<CreatePostPage />} />
+            <Route
+              exact
+              path={ROUTES.CREATE_POST}
+              element={<CreatePostPage />}
+            />
             <Route path={ROUTES.EVENTS} element={<ExploreEventsPage />} />
             <Route
+              exact
               path={ROUTES.DETAILED_FRIEND_PAGE_VIEW}
               element={<DetailedFriendPage />}
             />
-            <Route path={ROUTES.CHAT} element={<UserChatPage />} />
-            <Route
-              element={
-                <>
-                  {" "}
-                  <NotFoundPage />{" "}
-                </>
-              }
-            />
+            <Route exact path={ROUTES.CHAT} element={<UserChatPage />} />
           </Routes>
         </div>
       </div>

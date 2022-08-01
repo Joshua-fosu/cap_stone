@@ -94,7 +94,6 @@ export function UserDataProvider({ children }) {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log("rush", doc.data());
       arrProfiles.push(doc.data());
     });
     setUserSuggestedProfiles(arrProfiles);

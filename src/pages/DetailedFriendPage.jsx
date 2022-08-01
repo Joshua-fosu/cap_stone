@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { database } from "../firebase/firebase";
 import { useParams } from "react-router-dom";
+import { sortPosts } from "../utils/SortingPosts";
 
 export default function DetailedFriendPage() {
   const { friend_id } = useParams();
@@ -31,9 +32,6 @@ export default function DetailedFriendPage() {
       querySnapshot.forEach((doc) => {
         setFriendDetails(doc.data());
       });
-      // const friendDocRef = doc(database, "users", friend_id);
-      // const friendDocSnap = await getDoc(friendDocRef);
-      // setFriendDetails(friendDocSnap.data());
     }
     async function fetchFriendPosts() {
       const q = query(
@@ -46,6 +44,7 @@ export default function DetailedFriendPage() {
       querySnapshot.forEach((doc) => {
         interArr.push(doc.data());
       });
+      interArr = await sortPosts(interArr, interArr.length);
       setFriendPosts(interArr);
     }
 
@@ -91,162 +90,4 @@ export default function DetailedFriendPage() {
       </div>
     </>
   );
-}
-
-{
-  /* <div className="col-lg-7 col-xl-6">
-                <div className="card card-white grid-margin">
-                  <div className="card-body">
-                    <div className="post">
-                      <textarea
-                        className="form-control"
-                        placeholder="Post"
-                        rows="4"
-                      ></textarea>
-                      <div className="post-options">
-                        <a href="#">
-                          <i className="fa fa-camera"></i>
-                        </a>
-                        <a href="#">
-                          <i className="fas fa-video"></i>
-                        </a>
-                        <a href="#">
-                          <i className="fa fa-music"></i>
-                        </a>
-                        <button className="btn btn-outline-primary float-right">
-                          Post
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="profile-timeline">
-                  <ul className="list-unstyled">
-                    <li className="timeline-item">
-                      <div className="card card-white grid-margin">
-                        <div className="card-body">
-                          <div className="timeline-item-header">
-                            <img
-                              src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                              alt=""
-                            />
-                            <p>
-                              Vikash smith <span>posted a status</span>
-                            </p>
-                            <small>3 hours ago</small>
-                          </div>
-                          <div className="timeline-item-post">
-                            <p>
-                              Elavita veritatis et quasi architecto beatae vitae
-                              dicta sunt explicabo. Nemo enim ipsam voluptatem
-                              quia voluptas sit aspernatur aut odit aut fugit,
-                              sed quia consequuntur.
-                            </p>
-                            <div className="timeline-options">
-                              <a href="#">
-                                <i className="fa fa-thumbs-up"></i> Like (15)
-                              </a>
-                              <a href="#">
-                                <i className="fa fa-comment"></i> Comment (4)
-                              </a>
-                              <a href="#">
-                                <i className="fa fa-share"></i> Share (6)
-                              </a>
-                            </div>
-                            <div className="timeline-comment">
-                              <div className="timeline-comment-header">
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                  alt=""
-                                />
-                                <p>
-                                  Jamara Karle <small>1 hour ago</small>
-                                </p>
-                              </div>
-                              <p className="timeline-comment-text">
-                                Xullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.
-                              </p>
-                            </div>
-                            <div className="timeline-comment">
-                              <div className="timeline-comment-header">
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                  alt=""
-                                />
-                                <p>
-                                  Lois Anderson <small>3 hours ago</small>
-                                </p>
-                              </div>
-                              <p className="timeline-comment-text">
-                                Coluptate velit esse cillum dolore eu fugiat
-                                nulla pariatur. Excepteur sint occaecat
-                                cupidatat non proident, sunt in culpa qui
-                                officia.
-                              </p>
-                            </div>
-                            <textarea
-                              className="form-control"
-                              placeholder="Replay"
-                            ></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="timeline-item">
-                      <div className="card card-white grid-margin">
-                        <div className="card-body">
-                          <div className="timeline-item-header">
-                            <img
-                              src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                              alt=""
-                            />
-                            <p>
-                              Veema Walkeror <span>uploaded a photo</span>
-                            </p>
-                            <small>7 hours ago</small>
-                          </div>
-                          <div className="timeline-item-post">
-                            <p>
-                              totam rem aperiam, eaque ipsa quae ab illo
-                              inventore
-                            </p>
-                            <img src="img/post-img01.jpg" alt="" />
-                            <div className="timeline-options">
-                              <a href="#">
-                                <i className="fa fa-thumbs-up"></i> Like (22)
-                              </a>
-                              <a href="#">
-                                <i className="fa fa-comment"></i> Comment (7)
-                              </a>
-                              <a href="#">
-                                <i className="fa fa-share"></i> Share (9)
-                              </a>
-                            </div>
-                            <div className="timeline-comment">
-                              <div className="timeline-comment-header">
-                                <img
-                                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                  alt=""
-                                />
-                                <p>
-                                  Memila moriya <small>1 hour ago</small>
-                                </p>
-                              </div>
-                              <p className="timeline-comment-text">
-                                Explicabo Nemo enim ipsam voluptatem quia
-                                voluptas.
-                              </p>
-                            </div>
-                            <textarea
-                              className="form-control"
-                              placeholder="Replay"
-                            ></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div> */
 }

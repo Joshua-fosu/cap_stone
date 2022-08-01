@@ -6,6 +6,7 @@ import UserProfileRightWrapper from "../components/UserProfileComponents/UserPro
 import UserProfileSkeleton from "../components/SkeletonLoaders/UserProfileSkeleton";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { database } from "../firebase/firebase";
+import { sortPosts } from "../utils/SortingPosts";
 
 export default function UserProfile() {
   const { userDetails } = useUserData();
@@ -20,7 +21,6 @@ export default function UserProfile() {
       ];
       const q = query(
         collection(database, "posts"),
-        orderBy("createdAt"),
         where("userName", "in", includedInPost)
       );
       let eachArr = [];
@@ -29,6 +29,8 @@ export default function UserProfile() {
         console.log("post", doc.data());
         eachArr.push(doc.data());
       });
+      console.log("eachArr", eachArr);
+      eachArr = await sortPosts(eachArr, eachArr.length);
       setUserPosts(eachArr);
       setLoadingUserProfile(false);
     }

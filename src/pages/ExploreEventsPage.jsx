@@ -71,9 +71,18 @@ export default function ExploreEventsPage() {
             <EventSearchbar setFilterEvent={setFilterEvent} />
             <Col
               sm={9}
-              style={{ alignContent: "space-between", alignItems: "" }}
+              style={{
+                alignContent: "space-between",
+                alignItems: "",
+              }}
             >
-              <Row style={{ alignContent: "space-between", marginTop: "1rem" }}>
+              <Row
+                style={{
+                  alignContent: "space-between",
+                  marginTop: "1rem",
+                  minHeight: "70vh",
+                }}
+              >
                 {currentPosts.map((event, idx) => (
                   <>
                     <Card
