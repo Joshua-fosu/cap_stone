@@ -121,6 +121,10 @@ body {
   margin-bottom: 20px;
 }
 
+.btn-activate {
+  border-color: black;
+}
+
 .block.block-fullscreen {
   position: fixed;
   top: 5px;
