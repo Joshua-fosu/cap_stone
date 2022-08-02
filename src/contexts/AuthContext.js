@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
       Following: 0,
       userFriends: [],
       Followers: 0,
-      About: "",
+      About: "Hello there!!!",
       userAvatar_pic: `https://api.multiavatar.com/${userName}.svg?apikey=${multiAvatarAPI}`,
       userID: id,
       savedEvents: [],
