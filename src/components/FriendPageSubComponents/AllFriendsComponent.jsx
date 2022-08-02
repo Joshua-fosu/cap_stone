@@ -21,6 +21,7 @@ export default function AllFriendsComponent() {
   const [loading, setLoading] = useState(true);
   const { userSuggestedProfiles } = useUserData();
   const { userDetails } = useUserData();
+  const [filterLetter, setFilterLetter] = useState("");
 
   useEffect(() => {
     async function fetchAllFriends() {
@@ -44,19 +45,30 @@ export default function AllFriendsComponent() {
     fetchUserFriends();
   }, [userSuggestedProfiles]);
 
+  let filteredAllFriends = allFriends;
+
+  if (filterLetter !== "") {
+    filteredAllFriends = allFriends?.filter((eachFriend) => {
+      return eachFriend?.userName[0].toUpperCase() === filterLetter;
+    });
+  }
+
   return (
     <>
       <div className="row">
         <div className="col-md-12">
           <div className="block" style={{ minHeight: "70vh" }}>
-            <FilterFriendsByStartLetter />
+            <FilterFriendsByStartLetter
+              setFilterLetter={setFilterLetter}
+              filterLetter={filterLetter}
+            />
             <div className="row style-alt">
               {loading ? (
                 <div style={{ display: "flex", justifyContent: "flex-start" }}>
                   <UserChatSkeleton />{" "}
                 </div>
-              ) : allFriends.length !== 0 ? (
-                allFriends.map((eachFriend) => (
+              ) : filteredAllFriends.length !== 0 ? (
+                filteredAllFriends.map((eachFriend) => (
                   <>
                     <EachAllFriendComponent
                       eachFriend={eachFriend}
@@ -65,7 +77,7 @@ export default function AllFriendsComponent() {
                   </>
                 ))
               ) : (
-                <></>
+                <>There are no usernames starting with '{filterLetter}'</>
               )}
             </div>
           </div>
