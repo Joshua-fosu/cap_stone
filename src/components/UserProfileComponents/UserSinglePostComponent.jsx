@@ -4,11 +4,18 @@ import CommentButton from "../ButtonComponents/CommentButton";
 import PostTextBox from "../ButtonComponents/PostTextBox";
 import { Overlay, Popover, Button, OverlayTrigger } from "react-bootstrap";
 import { findTimeElapsed } from "../../utils/TimeConversion";
+import UnfollowButton from "../ButtonComponents/UnfollowButton";
+import GoToPageButton from "../ButtonComponents/GoToPageButton";
+import DeletePost from "../ButtonComponents/DeletePost";
+import { useUserData } from "../../contexts/UserDataContext";
 import "./UserSinglePostComponent.css";
 
 export default function UserSinglePostComponent({ userPost }) {
   const [displayPostTextBox, setDisplayPostTextBox] = useState(false);
   const [displayTimeElapsed, setDisplayTimeElapsed] = useState("");
+  const { userDetails } = useUserData();
+  const [deletePost, setDeletePost] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     setDisplayTimeElapsed(findTimeElapsed(userPost?.createdAt));
@@ -16,7 +23,7 @@ export default function UserSinglePostComponent({ userPost }) {
 
   return (
     <>
-      <div className="col-md-12 grid-margin">
+      <div className={deletePost ? "d-none" : "col-md-12 grid-margin"}>
         <div className="card rounded">
           <div className="card-header">
             <div className="d-flex align-items-center justify-content-between">
@@ -33,13 +40,29 @@ export default function UserSinglePostComponent({ userPost }) {
               </div>
               <OverlayTrigger
                 trigger="click"
-                // key={}
                 placement="bottom"
+                show={show}
                 overlay={
                   <Popover id={`popover-positioned-bottom`}>
-                    <Popover.Header as="h3">{`Popover bottom`}</Popover.Header>
+                    <Popover.Header as="h3">Menu</Popover.Header>
                     <Popover.Body>
-                      <strong>Holy guacamole!</strong> Check this info.
+                      {userDetails?.userName === userPost?.userName ? (
+                        <>
+                          <DeletePost
+                            eachPost={userPost}
+                            setDeletePost={setDeletePost}
+                            setShow={setShow}
+                          />{" "}
+                        </>
+                      ) : (
+                        <>
+                          <UnfollowButton
+                            eachPost={userPost}
+                            setShow={setShow}
+                          />
+                          <GoToPageButton eachPost={userPost} />
+                        </>
+                      )}
                     </Popover.Body>
                   </Popover>
                 }
@@ -51,6 +74,9 @@ export default function UserSinglePostComponent({ userPost }) {
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
+                  onClick={() => {
+                    setShow(!show);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
