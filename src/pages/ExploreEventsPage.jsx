@@ -13,14 +13,17 @@ import EventPageModalComponent from "../components/EventPageComponent/EventPageM
 import EventSearchbar from "../components/EventPageComponent/EventSearchbar";
 import EventPageSideDetails from "../components/EventPageComponent/EventPageSideDetails";
 import { useUserData } from "../contexts/UserDataContext";
+import { sortEvents } from "../utils/SortingEvents";
 import Paginationn from "../components/Pagination/Pagination";
 import UserProfileSkeleton from "../components/SkeletonLoaders/UserProfileSkeleton";
+import { sortPosts } from "../utils/SortingPosts";
 
 export default function ExploreEventsPage() {
   const [eventID, setEventID] = useState("");
   const [modalShow, setModalShow] = React.useState(false);
   const [filterEvent, setFilterEvent] = useState("");
-  const { events } = useUserData();
+  const { events, setEvents, lat, lng } = useUserData();
+  const [sortedEvents, setSortedEvents] = useState([]);
   const [posts, setPosts] = useState(events);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,13 +52,11 @@ export default function ExploreEventsPage() {
 
   useEffect(() => {
     const fetchTicketMasterEvents = async () => {
-      const data = await axios.get(
-        "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=xAUT6SWiZgDpKhJFiEoGXRuo4igpPS26"
-      );
+      setEvents(sortEvents(events, lat, lng));
       setLoading(false);
     };
     fetchTicketMasterEvents();
-  }, [currentPosts]);
+  }, []);
 
   return (
     <>

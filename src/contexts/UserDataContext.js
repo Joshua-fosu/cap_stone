@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, Component } from "react";
 import {
   collection,
   addDoc,
@@ -27,6 +27,9 @@ export function UserDataProvider({ children }) {
   const [userSuggestedProfiles, setUserSuggestedProfiles] = useState([]);
   const [includeInFeed, setIncludeInFeed] = useState([]);
   const [userEmail, setUserEmail] = useState("");
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [status, setStatus] = useState(null);
   const Navigate = useNavigate();
 
   async function getUserDetails(currentUserEmail) {
@@ -37,9 +40,32 @@ export function UserDataProvider({ children }) {
       setUserDetails(docSnap.data());
       getSuggestedProfiles(currentUserEmail);
       Navigate(`/user/${docSnap.data().userID}/`);
+      getUserCoords();
       return docSnap.data().userEmail;
     } catch (err) {
       console.log("Unable to read", err);
+    }
+  }
+  function getUserCoords() {
+    if (!navigator.geolocation) {
+      setStatus("Geolocation is not supported by your browser");
+    } else {
+      setStatus("Locating...");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setStatus(null);
+          setLat(position.coords.latitude);
+          setLng(position.coords.longitude);
+          console.log(
+            "position",
+            position.coords.latitude,
+            position.coords.longitude
+          );
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
     }
   }
 
@@ -216,6 +242,7 @@ export function UserDataProvider({ children }) {
       const response = await axios
         .get(URL)
         .then((res) => {
+          console.log("all events", res.data._embedded.events);
           setEvents(res.data._embedded.events);
         })
         .catch((err) => console.log(err));
@@ -231,9 +258,12 @@ export function UserDataProvider({ children }) {
     getSuggestedProfiles,
     userSuggestedProfiles,
     events,
+    setEvents,
     setUserSuggestedProfiles,
     addToCalendar,
     addNewFriendRoom,
+    lat,
+    lng,
   };
 
   return (
