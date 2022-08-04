@@ -8,7 +8,6 @@ export default function FriendSubscribedFriendsComponent({ userFriends }) {
   useEffect(() => {
     async function fetchSubscribedFriendsDetails() {
       if (userFriends?.length > 0) {
-        console.log("ndks");
         const q = query(
           collection(database, "users"),
           where("userName", "in", userFriends)
