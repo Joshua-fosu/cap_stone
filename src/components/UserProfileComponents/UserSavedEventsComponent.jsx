@@ -16,8 +16,6 @@ import { database } from "../../firebase/firebase";
 import { gapi } from "gapi-script";
 import ApiCalendar from "react-google-calendar-api";
 
-//AIzaSyAc1wXM5yPn380XdavL4BciDBKtqCcx8eM
-
 export default function UserSavedEventsComponent() {
   const [toastSavedEvents, setToastSavedEvents] = useState([]);
   const { userDetails, events, addToCalendar } = useUserData();

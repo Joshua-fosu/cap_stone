@@ -32,7 +32,6 @@ export default function EachAllFriendComponent({ eachFriend, userFriends }) {
     // setAddedFriendID(event.target.id);
     if (!hasAddedFriend) {
       // setAddedFriendID(event.target.id);
-      console.log("printed");
 
       await updateDoc(addFriendRef, {
         followingFriends: arrayUnion(addedFriendID),

@@ -77,9 +77,6 @@ export function AuthProvider({ children }) {
         console.log("user cred", userCredential);
         const user = userCredential.user;
         setCurrentUser(user);
-        // Navigate(`/user/jfkdl`);
-        // return true;
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -115,8 +112,6 @@ export function AuthProvider({ children }) {
           );
           Navigate(`/user/${newUser?.userID}/`);
         }
-
-        // return res.user._delegate;
       })
       .catch((err) => {});
   };

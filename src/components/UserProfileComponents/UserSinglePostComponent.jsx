@@ -124,9 +124,7 @@ export default function UserSinglePostComponent({ userPost }) {
                     <img
                       className="singlepost_img"
                       src={eachPost}
-                      onDoubleClick={(e) => {
-                        console.log("double clicked");
-                      }}
+                      onDoubleClick={(e) => {}}
                     />
                   </div>
                 ))
@@ -137,9 +135,7 @@ export default function UserSinglePostComponent({ userPost }) {
                     src={userPost?.imageURL}
                     alt=""
                     srcset=""
-                    onDoubleClick={() => {
-                      console.log("double clicked");
-                    }}
+                    onDoubleClick={() => {}}
                   />
                 </>
               )}

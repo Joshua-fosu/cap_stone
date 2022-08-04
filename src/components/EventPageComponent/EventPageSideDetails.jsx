@@ -13,14 +13,12 @@ export default function EventPageSideDetails({ eventID }) {
   useEffect(() => {
     setSpecEvent(
       events.filter((event) => {
-        console.log("Unfor", event.id === eventID);
         return event.id === eventID;
       })
     );
   }, [eventID]);
 
   const addToSavedEvents = async (event) => {
-    console.log("user detials", userDetails.userEmail);
     const userDocRef = doc(database, "users", userDetails.userEmail);
     await updateDoc(userDocRef, {
       savedEvents: arrayUnion(specEvent[0].id),

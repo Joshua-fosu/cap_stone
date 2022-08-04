@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { database } from "../../firebase/firebase";
+import { useUserData } from "../../contexts/UserDataContext";
 
 export default function UserStatDisplayCarousel() {
   const [userStatuses, setUserStatuses] = useState([]);
+  const { userDetails } = useUserData();
 
   useEffect(() => {
     const q = query(collection(database, "statuses"), where("id", ">", ""));
     let interArr = [];
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
         interArr.push(doc.data());
       });
       setUserStatuses(interArr);
@@ -28,7 +29,7 @@ export default function UserStatDisplayCarousel() {
                 <Carousel.Item interval={5000}>
                   <img
                     className="d-block w-100"
-                    src="https://wallpaperaccess.com/full/2416004.jpg"
+                    src={eachStat?.image}
                     alt="First slide"
                     style={{ minHeight: "350px" }}
                   />
@@ -36,7 +37,11 @@ export default function UserStatDisplayCarousel() {
                     <p>{eachStat?.name}</p>
                   </Carousel.Caption>
                   <p className="text-muted">
-                    {eachStat?.owner} has this event saved
+                    {eachStat?.owner === userDetails?.userName
+                      ? "You"
+                      : eachStat?.owner}
+                    {" has "}
+                    this event saved
                   </p>
                 </Carousel.Item>
               ))

@@ -57,7 +57,7 @@ export function sortPosts(arr, n) {
   quickSort(arr, 0, n - 1);
   //   const postR = arr.reverse();
 
-  //   console.log("Sorted Array");
+  //
   //   printArray(postR, postR.length);
   const postReversed = arr.reverse();
   return postReversed;

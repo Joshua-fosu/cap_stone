@@ -48,7 +48,6 @@ function partition(arr, low, high, userPositionLat, userPositionLong) {
     eventVenueLat,
     eventVenueLong
   );
-  console.log("pivot", pivot);
 
   // Index of smaller element and
   // indicates the right position
