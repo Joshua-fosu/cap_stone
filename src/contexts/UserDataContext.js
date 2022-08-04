@@ -184,7 +184,7 @@ export function UserDataProvider({ children }) {
         scope: SCOPES,
       });
 
-      gapi.client.load("calendar", "v3", () => console.log("bam!"));
+      gapi.client.load("calendar", "v3");
 
       gapi.auth2
         .getAuthInstance()
@@ -242,7 +242,6 @@ export function UserDataProvider({ children }) {
       const response = await axios
         .get(URL)
         .then((res) => {
-          console.log("all events", res.data._embedded.events);
           setEvents(res.data._embedded.events);
         })
         .catch((err) => console.log(err));

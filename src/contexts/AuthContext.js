@@ -74,7 +74,7 @@ export function AuthProvider({ children }) {
     signInWithEmailAndPassword(getR, email, password)
       .then((userCredential) => {
         setIsLoggedIn(true);
-        console.log("user cred", userCredential);
+
         const user = userCredential.user;
         setCurrentUser(user);
       })
@@ -96,11 +96,9 @@ export function AuthProvider({ children }) {
         const docSnap = await getDoc(userRef);
 
         if (docSnap.exists()) {
-          console.log("Already exists");
           setUserDetails(docSnap.data());
           Navigate(`/user/${docSnap.data()?.userID}/`);
         } else {
-          console.log("Need to create new");
           const newUser = createNewUser(
             userSocialDetails.displayName.replace(/ +/g, ""),
             userSocialDetails.email
