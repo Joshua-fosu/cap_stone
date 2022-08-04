@@ -232,7 +232,7 @@ export function UserDataProvider({ children }) {
       Authorization: "Bearer FaxaHps5PGFaZI7qmJF-qb62W-xehMjApnKARcuj",
     },
   };
-  // const URL = "https://api.predicthq.com/v1/events/?limit=200&offset=200";
+
   const URL =
     "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=xAUT6SWiZgDpKhJFiEoGXRuo4igpPS26";
 

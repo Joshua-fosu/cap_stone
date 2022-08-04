@@ -26,9 +26,7 @@ export default function LoginForm({ setError }) {
     event.preventDefault();
     try {
       login(userEmail, userPassword);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   return (

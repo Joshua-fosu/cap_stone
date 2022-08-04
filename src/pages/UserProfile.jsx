@@ -26,10 +26,9 @@ export default function UserProfile() {
       let eachArr = [];
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log("post", doc.data());
         eachArr.push(doc.data());
       });
-      console.log("eachArr", eachArr);
+
       eachArr = await sortPosts(eachArr, eachArr.length);
       setUserPosts(eachArr);
       setLoadingUserProfile(false);
