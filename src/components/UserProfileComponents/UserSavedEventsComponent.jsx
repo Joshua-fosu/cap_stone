@@ -34,7 +34,6 @@ export default function UserSavedEventsComponent() {
 
   const addToStatus = () => {
     toastSavedEvents.forEach(async (eachSavedEvent) => {
-      console.log("each", eachSavedEvent);
       const docRef = await addDoc(collection(database, "statuses"), {
         name: eachSavedEvent?.name,
         id: eachSavedEvent?.id,
@@ -51,7 +50,6 @@ export default function UserSavedEventsComponent() {
       setToastSavedEvents(
         events?.filter((event) => {
           return docSnap?.data()?.savedEvents.find((savedEvent) => {
-            console.log(savedEvent === event.id);
             return savedEvent === event.id;
           });
         })
