@@ -21,7 +21,7 @@ export default function AllFriendsComponent() {
   const [loading, setLoading] = useState(true);
   const { userSuggestedProfiles } = useUserData();
   const { userDetails } = useUserData();
-  const [filterLetter, setFilterLetter] = useState("");
+  const [filterLetter, setFilterLetter] = useState("#");
 
   useEffect(() => {
     async function fetchAllFriends() {
@@ -47,7 +47,7 @@ export default function AllFriendsComponent() {
 
   let filteredAllFriends = allFriends;
 
-  if (filterLetter !== "") {
+  if (filterLetter !== "" && filterLetter !== "#") {
     filteredAllFriends = allFriends?.filter((eachFriend) => {
       return eachFriend?.userName[0].toUpperCase() === filterLetter;
     });
