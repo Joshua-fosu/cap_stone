@@ -56,11 +56,6 @@ export function UserDataProvider({ children }) {
           setStatus(null);
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
-          console.log(
-            "position",
-            position.coords.latitude,
-            position.coords.longitude
-          );
         },
         () => {
           setStatus("Unable to retrieve your location");
