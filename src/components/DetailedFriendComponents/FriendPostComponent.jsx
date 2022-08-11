@@ -9,6 +9,8 @@ import { findTimeElapsed } from "../../utils/TimeConversion";
 export default function FriendPostComponent({ eachFriendPost }) {
   const [displayPostTextBox, setDisplayPostTextBox] = useState(false);
   const [displayTimeElapsed, setDisplayTimeElapsed] = useState("");
+  const [hasLiked, setHasLiked] = useState(false);
+  const [numberOfLikes, setNumberOfLikes] = useState(eachFriendPost?.likes);
 
   useEffect(() => {
     setDisplayTimeElapsed(findTimeElapsed(eachFriendPost?.createdAt));
@@ -76,30 +78,17 @@ export default function FriendPostComponent({ eachFriendPost }) {
         </div>
         <div className="card-footer">
           <div className="d-flex post-actions">
-            <LikeButton userPostDetails={eachFriendPost} />
+            <LikeButton
+              userPostDetails={eachFriendPost}
+              hasLiked={hasLiked}
+              setHasLiked={setHasLiked}
+              numberOfLikes={numberOfLikes}
+              setNumberOfLikes={setNumberOfLikes}
+            />
             <CommentButton
               displayPostTextBox={displayPostTextBox}
               setDisplayPostTextBox={setDisplayPostTextBox}
             />
-            <a href="#" className="d-flex align-items-center text-muted">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-share icon-md"
-              >
-                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                <polyline points="16 6 12 2 8 6"></polyline>
-                <line x1="12" y1="2" x2="12" y2="15"></line>
-              </svg>
-              <p className="d-none d-md-block ml-2">Share</p>
-            </a>
           </div>
         </div>
       </div>

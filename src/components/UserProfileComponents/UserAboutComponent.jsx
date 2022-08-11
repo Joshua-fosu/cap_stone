@@ -42,12 +42,7 @@ export default function UserAboutComponent() {
               </label>
               <p className="text-muted">{userDetails?.createdAt}</p>
             </div>
-            <div className="mt-3">
-              <label className="tx-11 font-weight-bold mb-0 text-uppercase">
-                Lives:
-              </label>
-              <p className="text-muted">New York, USA</p>
-            </div>
+
             <div className="mt-3">
               <label className="tx-11 font-weight-bold mb-0 text-uppercase">
                 Email:

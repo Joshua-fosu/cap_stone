@@ -99,8 +99,8 @@ export default function CreatePostPage() {
                 />
               ))}
 
-              <span className="text-[18px] w-56 truncate">
-                {checkFile ? "" : "choose a file"}
+              <span className="text-[9px] w-40 truncate">
+                {checkFile ? selectedFile[0]?.name : "choose a file"}
               </span>
             </div>
           </div>

@@ -17,7 +17,14 @@ export default function FriendAboutComponent({ friendDetails }) {
               alt=""
             />
             <h4 className="text-center h6 mt-2">{friendDetails?.userName}</h4>
-            <button className="btn btn-theme btn-sm">Unfollow</button>
+            <button
+              className="btn btn-theme btn-sm"
+              onDoubleClick={() => {
+                console.log("Hello");
+              }}
+            >
+              Unfollow
+            </button>
             <button className="btn btn-theme btn-sm">Message</button>
           </div>
 

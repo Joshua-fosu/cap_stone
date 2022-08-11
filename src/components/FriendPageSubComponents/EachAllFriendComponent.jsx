@@ -94,7 +94,7 @@ export default function EachAllFriendComponent({ eachFriend, userFriends }) {
                     </>
                   ) : (
                     <>
-                      <i class="bi bi-archive" id={eachFriend.userName}></i>
+                      <i className="bi bi-archive" id={eachFriend.userName}></i>
                     </>
                   )}
                 </a>

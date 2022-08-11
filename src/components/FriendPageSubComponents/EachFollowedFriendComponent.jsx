@@ -41,8 +41,8 @@ export default function EachFollowedFriendComponent({
                 {userFriendDetails?.userName}
               </a>
             </h5>
-            <p>Software Engineer</p>
-            <p class="text-muted">500m away</p>
+
+            <p class="text-muted">{userFriendDetails?.About}</p>
           </div>
           <div class="col-md-3 col-sm-3">
             <Link

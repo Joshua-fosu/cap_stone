@@ -7,7 +7,9 @@ import { findTimeElapsed } from "../../utils/TimeConversion";
 import UnfollowButton from "../ButtonComponents/UnfollowButton";
 import GoToPageButton from "../ButtonComponents/GoToPageButton";
 import DeletePost from "../ButtonComponents/DeletePost";
+import DownloadButton from "../ButtonComponents/DownloadButton";
 import { useUserData } from "../../contexts/UserDataContext";
+import { dbClickToLike } from "../ButtonComponents/LikeButton";
 import "./UserSinglePostComponent.css";
 
 export default function UserSinglePostComponent({ userPost }) {
@@ -16,6 +18,8 @@ export default function UserSinglePostComponent({ userPost }) {
   const { userDetails } = useUserData();
   const [deletePost, setDeletePost] = useState(false);
   const [show, setShow] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [numberOfLikes, setNumberOfLikes] = useState(userPost?.likes);
 
   useEffect(() => {
     setDisplayTimeElapsed(findTimeElapsed(userPost?.createdAt));
@@ -63,6 +67,7 @@ export default function UserSinglePostComponent({ userPost }) {
                           <GoToPageButton eachPost={userPost} />
                         </>
                       )}
+                      <DownloadButton eachPost={userPost} />
                     </Popover.Body>
                   </Popover>
                 }
@@ -100,6 +105,13 @@ export default function UserSinglePostComponent({ userPost }) {
           </div>
           <div className="card-body">
             <div
+              onClick={() => {
+                dbClickToLike(userPost, userDetails?.userName);
+                setHasLiked(hasLiked ? false : true);
+                setNumberOfLikes(
+                  hasLiked ? numberOfLikes - 1 : numberOfLikes + 1
+                );
+              }}
               style={{
                 scrollSnapType: "x mandatory !important",
                 display: "flex",
@@ -149,31 +161,19 @@ export default function UserSinglePostComponent({ userPost }) {
           </div>
           <div className="card-footer">
             <div className="d-flex post-actions">
-              <LikeButton userPostDetails={userPost} />
+              <LikeButton
+                userPostDetails={userPost}
+                hasLiked={hasLiked}
+                setHasLiked={setHasLiked}
+                numberOfLikes={numberOfLikes}
+                setNumberOfLikes={setNumberOfLikes}
+              />
               <CommentButton
                 displayPostTextBox={displayPostTextBox}
                 setDisplayPostTextBox={setDisplayPostTextBox}
               />
 
-              <a href="#" className="d-flex align-items-center text-muted">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="feather feather-share icon-md"
-                >
-                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                  <polyline points="16 6 12 2 8 6"></polyline>
-                  <line x1="12" y1="2" x2="12" y2="15"></line>
-                </svg>
-                <p className="d-none d-md-block ml-2">Share</p>
-              </a>
+              {/* <DownloadButton eachPost={userPost} /> */}
             </div>
           </div>
         </div>

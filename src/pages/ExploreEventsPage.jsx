@@ -55,6 +55,7 @@ export default function ExploreEventsPage() {
       setEvents(sortEvents(events, lat, lng));
       setLoading(false);
     };
+    console.log(events);
     fetchTicketMasterEvents();
   }, []);
 

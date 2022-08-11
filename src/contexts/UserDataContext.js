@@ -24,6 +24,7 @@ export function useUserData() {
 export function UserDataProvider({ children }) {
   const [userDetails, setUserDetails] = useState({});
   const [events, setEvents] = useState([]);
+  const [userSavedEvents, setUserSavedEvents] = useState([]);
   const [userSuggestedProfiles, setUserSuggestedProfiles] = useState([]);
   const [includeInFeed, setIncludeInFeed] = useState([]);
   const [userEmail, setUserEmail] = useState("");
@@ -38,6 +39,7 @@ export function UserDataProvider({ children }) {
       const docRef = doc(database, "users", currentUserEmail);
       const docSnap = await getDoc(docRef);
       setUserDetails(docSnap.data());
+      setUserSavedEvents(docSnap.data().savedEvents);
       getSuggestedProfiles(currentUserEmail);
       Navigate(`/user/${docSnap.data().userID}/`);
       getUserCoords();
@@ -248,6 +250,8 @@ export function UserDataProvider({ children }) {
     getUserDetails,
     userDetails,
     setUserDetails,
+    userSavedEvents,
+    setUserSavedEvents,
     uploadImageObject,
     getSuggestedProfiles,
     userSuggestedProfiles,
